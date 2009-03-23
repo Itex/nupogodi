@@ -436,7 +436,7 @@ void main() {
     exit (-1);
   }
 
-/* Splash befor the game */
+/* Splash before the game */
   for(i=0;i<260;i+=20) {
 		cleardevice();
 		back_pic();
