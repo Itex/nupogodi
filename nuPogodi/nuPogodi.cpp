@@ -1,4 +1,4 @@
-п»ї//============================================================================
+//============================================================================
 // Name        : nuPogodi.cpp
 // Author      : xolvo & David
 // Version     :
@@ -7,22 +7,20 @@
 //============================================================================
 
 /* TODO list for this project
-	1. РџРµСЂРµРґРµР»Р°С‚СЊ С„РѕРЅ
-	2. Р’СЃС‚Р°РІРёС‚СЊ РјСѓР·С‹РєСѓ
-	3. РЎРґРµР»Р°С‚СЊ Р»СѓС‡С€РёР№ СЂРµР·СѓР»СЊС‚Р°С‚
-	4. РР·РјРµРЅРёС‚СЊ СЃРєР°РЅРёСЂРѕРІР°РЅРёРµ РґРІРёР¶РµРЅРёСЏ
-	5. РСЃРїСЂР°РІРёС‚СЊ Devid РЅР° David
-	6. РџРѕРґСѓРјР°С‚СЊ Рѕ СЂРµР°Р»РёР·Р°С†РёРё РёРіСЂС‹
+	1. Переделать фон
+	2. Вставить музыку
+	3. Сделать лучший результат
+	4. Изменить сканирование движения
+	5. Исправить Devid на David
+	6. Подумать о реализации игры
 /*----------------------------*/
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <conio.h>
 #include <graphics.h>
 #include <dos.h>
-
-int bestscore=-1;
-int sou=100;
+int bestscore=0;
+int sou=100;//Переменная частоты звука
 
 enum {UP_ARROW=72, LEFT_ARROW=75, DOWN_ARROW=80, RIGHT_ARROW=77, ESC=27, ENTER=13};
 void action();
@@ -39,7 +37,7 @@ void back_pic() {
 	settextstyle(0, 0, 1);
 	outtextxy(200, 100, "Developed by David & Sanchez Inc.");
 	sound(sou);
-	delay(150);
+	delay(50);
 	nosound();
 	sou=sou+100;
 }
@@ -117,10 +115,15 @@ void text(int y) {
 		outtextxy(370, 70, "Hight score");
 		char hs[100];
 		FILE *st;
-		st=fopen("file.txt","r");
+		if((st=fopen("file.txt","r"))==NULL)
+		outtextxy(240, 90, "No Best score");
+		else
+		{
+		//st=fopen("file.txt","r");
 		fgets(hs,100,st);
 		outtextxy(240, 90, hs);
 		fclose(st);
+		}
 	}
   if(y==181 || y==1) {
 		/* TODO think about rules improvements */
@@ -141,13 +144,17 @@ void text(int y) {
 }
 
 void menutext() {
-	/*РЅР°СЂРёСЃРѕРІР°С‚СЊ РїСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРє*/
+	/*нарисовать прямоугольник*/
+
   rectangle(30, 60, 200, 100);
-  /*РЅР°СЂРёСЃРѕРІР°С‚СЊ РІС‚РѕСЂРѕР№ РїСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРє*/
+  /*нарисовать второй прямоугольник*/
+
   rectangle(30, 120, 200, 160);
-  /*РЅР°СЂРёСЃРѕРІР°С‚СЊ С‚СЂРµС‚РёР№ РїСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРє*/
+  /*нарисовать третий прямоугольник*/
+
   rectangle(30, 180, 200, 220);
-  /*РЅР°СЂРёСЃРѕРІР°С‚СЊ РіР»Р°РІРЅСѓСЋ РѕР±Р»Р°СЃС‚СЊ*/
+  /*нарисовать главную область*/
+
   rectangle(230, 60, getmaxx()-50, getmaxy()-50);
 
   outtextxy(30, 10, "UP and DOWN arrow - for navigate");
@@ -172,24 +179,24 @@ void menu() {
 
     switch(arrow_key) {
 		case DOWN_ARROW:
-		/* !!! РћР§Р•РќР¬ РќРЈР–РќРђРЇ Р”Р’РћР™РќРђРЇ РџР РћР’Р•Р РљРђ !!! */
+		/* !!! ОЧЕНЬ НУЖНАЯ ДВОЙНАЯ ПРОВЕРКА !!! */
 		/* ======================================= */
-		/* РґРІРѕР№РЅР°СЏ РїСЂРѕРІРµСЂРєР° РЅСѓР¶РЅР°, С‡С‚Рѕ Р±С‹ РІРґСЂСѓРі РїСЂРё РЅР°Р¶Р°С‚РёРё РЅР° */
-		/* СЃС‚СЂРµР»РєСѓ РІРІРµСЂС… РЅРµ РїСЂРѕРёР·С€Р»Рѕ РїСЂРёР±Р°РІР»РµРЅРёРµ 60 РЅР° РїРѕСЃР»РµРґСѓСЋС‰РµРј СЌС‚Р°РїРµ */
-		/* Рё СЌРєСЂР°РЅ РЅРµ Р·Р°РєСЂР°СЃРёР»СЃСЏ */
+		/* двойная проверка нужна, что бы вдруг при нажатии на */
+		/* стрелку вверх не произшло прибавление 60 на последующем этапе */
+		/* и экран не закрасился */
 		  if(y>=181)
 		    y=1;
 		  cleardevice();
 		  menutext();
 		  active_item(y+=60);
-		  if(y>=181) /* С‚.Рє. РїСѓРЅРєС‚РѕРІ РјРµРЅСЋ РІСЃРµРіРѕ С‚СЂРё РґРµР»Р°РµРј С‚Р°Рє */
-		    y=1;     /* РґР»СЏ РїРѕСЃР»РµРґСѓСЋС‰РµРіРѕ СЃР»РѕР¶РµРЅРёСЏ СЃ 60 Рё РїРѕР»СѓС‡РµРЅРёСЏ РїСЂР°РІРёР»СЊРЅС‹С… СЂРµР·СѓР»СЊС‚Р°С‚РѕРІ */
+		  if(y>=181) /* т.к. пунктов меню всего три делаем так */
+		    y=1;     /* для последующего сложения с 60 и получения правильных результатов */
 		break;
 
 		case UP_ARROW:
 		  switch(y) {
 			case 1:
-			  y=121; /* С‡С‚Рѕ Р±С‹ РёСЃРїСЂР°РІРёС‚СЊ РїРµСЂРµС…РѕРґ РІРЅРёР· */
+			  y=121; /* что бы исправить переход вниз */
 			  cleardevice();
 	      menutext();
 	      active_item(y);
@@ -222,6 +229,7 @@ void menu() {
 		  text(y);
 			if(isstart(y)==1) {
 				delay(200);
+				bestscore=0;
 				action();
 			}
 		break;
@@ -313,46 +321,60 @@ setcolor(15);
 }
 
 void chickens() {
+setcolor(14);
+setfillstyle(9, 14);
 	line(getmaxx()/2 - 190, getmaxy()/2 - 40, (getmaxx()/2 - 190) + 50, getmaxy()/2 - 40);
 	/* start of left up chicken */
 	ellipse(getmaxx()/2 - 165, getmaxy()/2 - 48, 0, 360, 20, 8);
+	floodfill(getmaxx()/2 - 165, getmaxy()/2 - 48,14);
 	circle(getmaxx()/2 - 150, getmaxy()/2 - 60, 7);
+	floodfill(getmaxx()/2 - 150, getmaxy()/2 - 60, 14);
 	/* end of chicken */
-	line(getmaxx()/2 - 187, getmaxy()/2 - 40, getmaxx()/2 - 60, getmaxy()/2);
+	line(360 - 183, getmaxy()/2 - 40, getmaxx()/2 - 60, getmaxy()/2);
 
-	line(getmaxx()/2 - 190, getmaxy()/2 + 20, (getmaxx()/2 - 190) + 50, getmaxy()/2 + 20);
-	/* start of left down chicken */
-	ellipse(getmaxx()/2 - 165, getmaxy()/2 + 12, 0, 360, 20, 8);
-	circle(getmaxx()/2 - 150, getmaxy()/2, 7);
-	/* end of chicken */
-	line(getmaxx()/2 - 187, getmaxy()/2 + 20, getmaxx()/2 - 60, getmaxy()/2 + 60);
-
+setcolor(15);
+setfillstyle(9, 15);
 	line(getmaxx()/2 + 190, getmaxy()/2 - 40, (getmaxx()/2 + 190) - 50, getmaxy()/2 - 40);
 	/* start of right up chicken */
 	ellipse(getmaxx()/2 + 165, getmaxy()/2 - 48, 0, 360, 20, 8);
+	floodfill(getmaxx()/2 + 165, getmaxy()/2 - 48,15);
 	circle(getmaxx()/2 + 150, getmaxy()/2 - 60, 7);
+	floodfill(getmaxx()/2 + 150, getmaxy()/2 - 60, 15);
 	/* end of chicken */
-	line(getmaxx()/2 + 187, getmaxy()/2 - 40, getmaxx()/2 + 60, getmaxy()/2);
+	line(458, getmaxy()/2 - 40, getmaxx()/2 + 60, getmaxy()/2);
+
+setcolor(4);
+setfillstyle(9, 4);
+
+		line(getmaxx()/2 - 190, getmaxy()/2 + 20, (getmaxx()/2 - 190) + 50, getmaxy()/2 + 20);
+	/* start of left down chicken */
+	ellipse(getmaxx()/2 - 165, getmaxy()/2 + 12, 0, 360, 20, 8);
+	floodfill(getmaxx()/2 - 165, getmaxy()/2 + 12,4);
+	circle(getmaxx()/2 - 150, getmaxy()/2, 7);
+	floodfill(getmaxx()/2 - 150, getmaxy()/2, 4);
+	/* end of chicken */
+	line(360 - 183, getmaxy()/2 + 20, getmaxx()/2 - 65, getmaxy()/2 + 30);
+
 
 	line(getmaxx()/2 + 190, getmaxy()/2 + 20, (getmaxx()/2 + 190) - 50, getmaxy()/2 + 20);
 	/* start of right down chicken */
 	ellipse(getmaxx()/2 + 165, getmaxy()/2 + 12, 0, 360, 20, 8);
 	circle(getmaxx()/2 + 150, getmaxy()/2, 7);
 	/* end of chicken */
-	line(getmaxx()/2 + 187, getmaxy()/2 + 20, getmaxx()/2 + 60, getmaxy()/2 + 60);
+	line(458, getmaxy()/2 + 20, getmaxx()/2 + 65, getmaxy()/2 + 30);
 }
 void best(int bestscore)
 {
 char name[20];
 FILE *fPtr;
 int oldbest=0;
-
+bestscore--;//Временная подпрвка лучшего рез-та
 if((fPtr=fopen("file.txt","r"))==NULL)//schitivaem proshliy luchsiy rezultat
 printf("First game?\n");
 else
 {
    fscanf(fPtr,"%d",&oldbest);
-   printf("%d ",oldbest+1);
+   printf("%d \n",bestscore);
 
 fclose(fPtr);
 
@@ -415,7 +437,7 @@ void action() {
 				chickens();
 				vpvn(255,200);
 			}
-		}
+	}
 		best(bestscore);
 		cleardevice();
     menutext();
@@ -436,19 +458,19 @@ void main() {
     exit (-1);
   }
 
-/* Splash before the game */
+/* Splash befor the game */
   for(i=0;i<260;i+=20) {
 		cleardevice();
 		back_pic();
 		woolf(290-i, 200);
 		two_chickens(250-i, 300);
-		delay(150);
+		delay(100);
 
 
 	}
 /*-----------------------*/
 
 	menu();
-
+	
   closegraph();
 }
