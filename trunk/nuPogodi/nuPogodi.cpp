@@ -15,6 +15,7 @@
 	6. Подумать о реализации игры
 /*----------------------------*/
 
+#include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <conio.h>
@@ -67,7 +68,6 @@ void woolf(int x,int y) {
 	floodfill(60+x,60+y,7);
 	setcolor(15);
 }
-
 void two_chickens(int x, int y) {
 	setfillstyle(9, 14);
 
@@ -364,6 +364,9 @@ void chickens() {
 void best(int bestscore)
 {
 char name[20];
+name[0]=NULL;
+int i;
+
 FILE *fPtr;
 int oldbest=0;
 bestscore--;//Временная подпрвка лучшего рез-та
@@ -381,8 +384,15 @@ fclose(fPtr);
 
 if(oldbest>bestscore)
 {
-puts("Try Again");
+setcolor(1);
+rectangle(260,220,380,280);
+setfillstyle(1,1);
+floodfill(320,240,1);
+setcolor(15);
+outtextxy(285,240,"Try Again");
 getch();
+clrscr();
+cleardevice();
 }
 else
 {
@@ -391,16 +401,38 @@ if((fPtr=fopen("file.txt","w+"))==NULL)//esli uslovie vipoln
 printf("File could not to be opened\n");
 else
 {
+setcolor(3);
+rectangle(250,200,400,280);
+setfillstyle(1,3);
+floodfill(320,240,3);
+setcolor(15);
+outtextxy(280,205,"You did it");
+outtextxy(265,215,"Enter your name");
 
+char *s;
+char w;
+s=&w;
+	for(;;)
+	{
+		*s=getch();
+		if (*s==13)
+			break;
+		else
+		{
+		strncat(name,s,1);
+		outtextxy(300,240,name);
+		}
+	}
+}
 
-puts("Enter your name");
-scanf("%s",name);
 fprintf(fPtr,"%d ",bestscore);
 fprintf(fPtr,"%s ",name);
 }
 fclose(fPtr);
+getch();
+clrscr();
+cleardevice();
 
-}
 
 }
 
