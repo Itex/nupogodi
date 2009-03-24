@@ -1,4 +1,4 @@
-#summary One-sentence summary of this page.
+#summary Краткое описание ф-ций и объяснение их использования и их работы
 #labels api,explanation,С
 
 = Описание функций =
@@ -26,5 +26,3 @@ void two_chickens(int x, int y);
 
 Копии куриц из игры, для заставки
 }}}
-
-
