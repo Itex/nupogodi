@@ -14,11 +14,13 @@
 	5. Исправить Devid на David
 	6. Подумать о реализации игры
 /*----------------------------*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <conio.h>
 #include <graphics.h>
 #include <dos.h>
+
 int bestscore=0;
 int sou=100;//Переменная частоты звука
 
@@ -144,17 +146,13 @@ void text(int y) {
 }
 
 void menutext() {
-	/*нарисовать прямоугольник*/
-
+  /*нарисовать прямоугольник*/
   rectangle(30, 60, 200, 100);
   /*нарисовать второй прямоугольник*/
-
   rectangle(30, 120, 200, 160);
   /*нарисовать третий прямоугольник*/
-
   rectangle(30, 180, 200, 220);
   /*нарисовать главную область*/
-
   rectangle(230, 60, getmaxx()-50, getmaxy()-50);
 
   outtextxy(30, 10, "UP and DOWN arrow - for navigate");
@@ -321,8 +319,8 @@ setcolor(15);
 }
 
 void chickens() {
-setcolor(14);
-setfillstyle(9, 14);
+	setcolor(14);
+	setfillstyle(9, 14);
 	line(getmaxx()/2 - 190, getmaxy()/2 - 40, (getmaxx()/2 - 190) + 50, getmaxy()/2 - 40);
 	/* start of left up chicken */
 	ellipse(getmaxx()/2 - 165, getmaxy()/2 - 48, 0, 360, 20, 8);
@@ -332,8 +330,8 @@ setfillstyle(9, 14);
 	/* end of chicken */
 	line(360 - 183, getmaxy()/2 - 40, getmaxx()/2 - 60, getmaxy()/2);
 
-setcolor(15);
-setfillstyle(9, 15);
+	setcolor(15);
+	setfillstyle(9, 15);
 	line(getmaxx()/2 + 190, getmaxy()/2 - 40, (getmaxx()/2 + 190) - 50, getmaxy()/2 - 40);
 	/* start of right up chicken */
 	ellipse(getmaxx()/2 + 165, getmaxy()/2 - 48, 0, 360, 20, 8);
@@ -343,10 +341,10 @@ setfillstyle(9, 15);
 	/* end of chicken */
 	line(458, getmaxy()/2 - 40, getmaxx()/2 + 60, getmaxy()/2);
 
-setcolor(4);
-setfillstyle(9, 4);
+	setcolor(4);
+	setfillstyle(9, 4);
 
-		line(getmaxx()/2 - 190, getmaxy()/2 + 20, (getmaxx()/2 - 190) + 50, getmaxy()/2 + 20);
+	line(getmaxx()/2 - 190, getmaxy()/2 + 20, (getmaxx()/2 - 190) + 50, getmaxy()/2 + 20);
 	/* start of left down chicken */
 	ellipse(getmaxx()/2 - 165, getmaxy()/2 + 12, 0, 360, 20, 8);
 	floodfill(getmaxx()/2 - 165, getmaxy()/2 + 12,4);
@@ -409,37 +407,38 @@ fclose(fPtr);
 void action() {
 	int y=61;
 
-		cleardevice();
-		chickens();
-		vlvv(255, 200);
-	       //	int bestscore=-1;
-		int dvig=-1; // for fixing bug
-		while(dvig!=ESC) {
-			dvig=getch();
-			bestscore++;
-			if(dvig==97) {
-				cleardevice();
-				chickens();
-				vlvv(255, 200);
-			}
-			if (dvig==122) {
-				cleardevice();
-				chickens();
-				vlvn(255,200);
-			}
-			if(dvig==39) {
-				cleardevice();
-				chickens();
-				vpvv(255,200);
-			}
-			if (dvig==47) {
-				cleardevice();
-				chickens();
-				vpvn(255,200);
-			}
+	cleardevice();
+	chickens();
+	vlvv(255, 200);
+	     //	int bestscore=-1;
+	int dvig=-1; // for fixing bug
+	while(dvig!=ESC) {
+		dvig=getch();
+		bestscore++;
+		if(dvig==97) {
+			cleardevice();
+			chickens();
+			vlvv(255, 200);
+		}
+		if (dvig==122) {
+			cleardevice();
+			chickens();
+			vlvn(255,200);
+		}
+		if(dvig==39) {
+			cleardevice();
+			chickens();
+			vpvv(255,200);
+		}
+		if (dvig==47) {
+			cleardevice();
+			chickens();
+			vpvn(255,200);
+		}
 	}
-		best(bestscore);
-		cleardevice();
+	
+	best(bestscore);
+	cleardevice();
     menutext();
     active_item(y);
 }
@@ -465,12 +464,10 @@ void main() {
 		woolf(290-i, 200);
 		two_chickens(250-i, 300);
 		delay(100);
-
-
-	}
+  }
 /*-----------------------*/
 
-	menu();
+  menu();
 	
   closegraph();
 }
