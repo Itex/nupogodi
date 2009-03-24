@@ -1,4 +1,4 @@
-﻿//============================================================================
+//============================================================================
 // Name        : nuPogodi.cpp
 // Author      : xolvo & David
 // Version     :
@@ -370,8 +370,16 @@ int i;
 FILE *fPtr;
 int oldbest=0;
 bestscore--;//Временная подпрвка лучшего рез-та
+setcolor(3);
+rectangle(250,200,400,280);
+setfillstyle(1,3);
+floodfill(320,240,3);
+
+
 if((fPtr=fopen("file.txt","r"))==NULL)//schitivaem proshliy luchsiy rezultat
-printf("First game?\n");
+{setcolor(15);
+outtextxy(280,225,"First Game?");
+}
 else
 {
    fscanf(fPtr,"%d",&oldbest);
@@ -384,12 +392,12 @@ fclose(fPtr);
 
 if(oldbest>bestscore)
 {
-setcolor(1);
-rectangle(260,220,380,280);
-setfillstyle(1,1);
-floodfill(320,240,1);
+//setcolor(1);
+//rectangle(260,220,380,280);
+//setfillstyle(1,1);
+//floodfill(320,240,1);
 setcolor(15);
-outtextxy(285,240,"Try Again");
+outtextxy(290,230,"Try Again");
 getch();
 clrscr();
 cleardevice();
@@ -401,10 +409,6 @@ if((fPtr=fopen("file.txt","w+"))==NULL)//esli uslovie vipoln
 printf("File could not to be opened\n");
 else
 {
-setcolor(3);
-rectangle(250,200,400,280);
-setfillstyle(1,3);
-floodfill(320,240,3);
 setcolor(15);
 outtextxy(280,205,"You did it");
 outtextxy(265,215,"Enter your name");
@@ -429,7 +433,7 @@ fprintf(fPtr,"%d ",bestscore);
 fprintf(fPtr,"%s ",name);
 }
 fclose(fPtr);
-getch();
+//getch();
 clrscr();
 cleardevice();
 
