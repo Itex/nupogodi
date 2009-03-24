@@ -26,3 +26,12 @@ void two_chickens(int x, int y);
 
 Копии куриц из игры, для заставки
 }}}
+
+{{{
+void vlvv();
+void vlvn();
+void vpvv();
+void vpvn();
+
+Движение волка, где: vv-вверх, vn-вниз, vp-вправо, vl-влево
+}}}
