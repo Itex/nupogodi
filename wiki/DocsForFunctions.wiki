@@ -1,14 +1,30 @@
 #summary One-sentence summary of this page.
 #labels api,explanation,С
 
-= Introduction =
+= Описание функций =
 
-Add your content here.
+{{{
+void action();
+
+Создана для движений волка. При нажатии определенных клавиш, волк перемещает руку с корзиной и ловит яйца.
+}}}
+
+{{{
+void back_pic();
+
+Рисует фон для заставки вначале игры.
+}}}
+
+{{{
+void woolf(int x,int y);
+
+Специально созданная копия волка без корзинки и с двумя руками, чтобы он участвовал в заставке перед началом игры.
+}}}
+
+{{{
+void two_chickens(int x, int y);
+
+Копии куриц из игры, для заставки
+}}}
 
 
-= Details =
-
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
