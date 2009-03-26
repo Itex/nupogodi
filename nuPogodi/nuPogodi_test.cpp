@@ -1,4 +1,4 @@
-//============================================================================
+﻿//============================================================================
 // Name        : nuPogodi.cpp
 // Author      : xolvo & David
 // Version     :
@@ -488,19 +488,18 @@ void action() {
   getimage(333, 0, 433, 130, woolf_right_bottom);
 /*-----------------------------------*/
 
+  /* line(getmaxx()/2, getmaxy()/2 - 300, getmaxx()/2, getmaxy()/2 + 300);   // OY
+  line(getmaxx()/2 - 200, getmaxy()/2, getmaxx()/2 + 200, getmaxy()/2);   // OX */
+  
   cleardevice();  
 	chickens();
-	//vlvv(255, 200);
-  
-  line(getmaxx()/2, getmaxy()/2 - 300, getmaxx()/2, getmaxy()/2 + 300);   // OY
-  line(getmaxx()/2 - 200, getmaxy()/2, getmaxx()/2 + 200, getmaxy()/2);   // OX
-  
-  //putimage(255, 200, woolf_right_top, XOR_PUT);
   putimage(255, 200, woolf_left_top, XOR_PUT);
   flag = 1;
+  
+  outtextxy(20, 20, "debug");
 	
 	while(key != bios_esc) {
-		putimage(0 + x, 0 + y, egg, XOR_PUT);		// Draw test object
+		putimage(getmaxx()/2 + x, 0 + y, egg, XOR_PUT);		// Draw test object
 		key = bioskey(1);
     
     if(key != 0)
@@ -524,18 +523,18 @@ void action() {
 		
 		switch(key) {
 			case up_left:
-				putimage(0 + x, 0 + y, egg, XOR_PUT);		// Erase test object
+				putimage(getmaxx()/2 + x, 0 + y, egg, XOR_PUT);		// Erase test object
 				x -= 10;
-				putimage(0 + x, 0 + y, egg, XOR_PUT);		// Draw test object
+				putimage(getmaxx()/2 + x, 0 + y, egg, XOR_PUT);		// Draw test object
         putimage(255, 200, woolf_left_top, XOR_PUT);
         
         flag = 1;
 			break;
 			
 			case up_right:
-				putimage(0 + x, 0 + y, egg, XOR_PUT);		// Erase test object
+				putimage(getmaxx()/2 + x, 0 + y, egg, XOR_PUT);		// Erase test object
 				x += 10;
-				putimage(0 + x, 0 + y, egg, XOR_PUT);		// Draw test object
+				putimage(getmaxx()/2 + x, 0 + y, egg, XOR_PUT);		// Draw test object
         putimage(285, 200, woolf_right_top, XOR_PUT);
         
         flag = 2;
@@ -554,20 +553,20 @@ void action() {
       break;
 		}
 		
-		delay(200);
-		putimage(0 + x, 0 + y, egg, XOR_PUT);		// Erase test object
+		delay(20);
+		putimage(getmaxx()/2 + x, 0 + y, egg, XOR_PUT);		// Erase test object
 		y += 5;
-		putimage(0 + x, 0 + y, egg, XOR_PUT);		// Draw test object
+		putimage(getmaxx()/2 + x, 0 + y, egg, XOR_PUT);		// Draw test object
 		delay(10);
-		putimage(0 + x, 0 + y, egg, XOR_PUT);		// Erase test object
+		putimage(getmaxx()/2 + x, 0 + y, egg, XOR_PUT);		// Erase test object
 		
 		if(y == 470)
 			y = 0;
 			
 		if(key != 0 && (key != up_left || key != up_right)) {
 			key = bioskey(0);
-			putimage(0 + x, 0 + y, egg, XOR_PUT);		// Erase test object
-			putimage(0 + x, 0 + y, egg, XOR_PUT);		// Draw test object
+			putimage(getmaxx()/2 + x, 0 + y, egg, XOR_PUT);		// Erase test object
+			putimage(getmaxx()/2 + x, 0 + y, egg, XOR_PUT);		// Draw test object
 		}
 	}
 	
