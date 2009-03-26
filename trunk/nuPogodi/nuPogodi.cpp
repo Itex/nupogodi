@@ -26,6 +26,8 @@ int bestscore=0;
 int sou=100;//Переменная частоты звука
 
 enum {UP_ARROW=72, LEFT_ARROW=75, DOWN_ARROW=80, RIGHT_ARROW=77, ESC=27, ENTER=13};
+enum bios_keis {bios_up = 18432, bios_right = 19712, bios_down = 20480, bios_left = 19200, bios_esc = 283, bios_enter = 7181, 
+                up_left = 7777, down_left = 11386, up_right = 10279, down_right = 13615};
 void action();
 
 void back_pic() {
