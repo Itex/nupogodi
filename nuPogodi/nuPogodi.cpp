@@ -1,4 +1,4 @@
-//============================================================================
+﻿//============================================================================
 // Name        : nuPogodi.cpp
 // Author      : xolvo & David
 // Version     :
@@ -441,42 +441,141 @@ cleardevice();
 }
 
 void action() {
-	int y=61;
+	  int x=0, y=0;
+	  int key=-1;
+	  void *egg, *woolf_left_top, *woolf_left_bottom, *woolf_right_top, *woolf_right_bottom;
+	  int flag = -1;    // 1 - vlvv; 2 - vpvv; 3 - vlvn; 4 - vpvn
+	  
+	/* Draw all objects to get them then */
+	  circle(getmaxx()/2, getmaxy()/2, 5);
+	  vlvv(0, 0);
+	  /* Width and Height */
+	  /* line(0, 130, 90, 130);
+	  line(90, 0, 90, 130); */
 
-	cleardevice();
-	chickens();
-	vlvv(255, 200);
-	     //	int bestscore=-1;
-	int dvig=-1; // for fixing bug
-	while(dvig!=ESC) {
-		dvig=getch();
-		bestscore++;
-		if(dvig==97) {
-			cleardevice();
-			chickens();
-			vlvv(255, 200);
+	  vlvn(91, 0);
+	  /* Width and Height */
+	  /* line(90, 130, 180, 130);
+	  line(180, 0, 180, 130); */
+	  
+	  vpvv(182, 0);
+	  /* Width and Height */
+	  /* line(210, 130, 310, 130);
+	  line(310, 0, 310, 130); */
+	  
+	  vpvn(303, 0);
+	  /* Width and Height */
+	  /* line(330, 130, 430, 130);
+	  line(430, 0, 430, 130); */
+	  
+	  /* Allocate memory for this variables */
+	  egg = malloc(imagesize(getmaxx()/2 - 5, getmaxy()/2 - 5, getmaxx()/2 + 5, getmaxy()/2 + 5));
+	  woolf_left_top = malloc(imagesize(0, 0, 90, 130));
+	  woolf_left_bottom = malloc(imagesize(91, 0, 181, 130));
+	  woolf_right_top = malloc(imagesize(212, 0, 312, 130));
+	  woolf_right_bottom = malloc(imagesize(333, 0, 433, 130));
+		
+	  /* Put objects from screen to variables */
+	  getimage(getmaxx()/2 - 5, getmaxy()/2 - 5, getmaxx()/2 + 5, getmaxy()/2 + 5, egg);
+	  getimage(0, 0, 90, 130, woolf_left_top);
+	  getimage(91, 0, 181, 130, woolf_left_bottom);
+	  getimage(212, 0, 312, 130, woolf_right_top);
+	  getimage(333, 0, 433, 130, woolf_right_bottom);
+	/*-----------------------------------*/
+
+	  cleardevice();  
+	  chickens();
+	  //vlvv(255, 200);
+	  
+	  line(getmaxx()/2, getmaxy()/2 - 300, getmaxx()/2, getmaxy()/2 + 300);   // OY
+	  line(getmaxx()/2 - 200, getmaxy()/2, getmaxx()/2 + 200, getmaxy()/2);   // OX
+	  
+	  //putimage(255, 200, woolf_right_top, XOR_PUT);
+	  putimage(255, 200, woolf_left_top, XOR_PUT);
+	  flag = 1;
+		
+	  while(key != bios_esc) {
+	    putimage(0 + x, 0 + y, egg, XOR_PUT);		// Draw test object
+		key = bioskey(1);
+	    
+	    if(key != 0)
+	      switch(flag) {
+	        case 1:
+	          putimage(255, 200, woolf_left_top, XOR_PUT);
+	        break;
+	        
+	        case 2:
+	          putimage(285, 200, woolf_right_top, XOR_PUT);
+	        break;
+	        
+	        case 3:
+	          putimage(255, 200, woolf_left_bottom, XOR_PUT);
+	        break;
+	        
+	        case 4:
+	          putimage(285, 200, woolf_right_bottom, XOR_PUT);
+	        break;
+	      }
+			
+		switch(key) {
+			case up_left:
+				putimage(0 + x, 0 + y, egg, XOR_PUT);		// Erase test object
+				x -= 10;
+				putimage(0 + x, 0 + y, egg, XOR_PUT);		// Draw test object
+				putimage(255, 200, woolf_left_top, XOR_PUT);
+	        
+				flag = 1;
+			break;
+				
+			case up_right:
+				putimage(0 + x, 0 + y, egg, XOR_PUT);		// Erase test object
+				x += 10;
+				putimage(0 + x, 0 + y, egg, XOR_PUT);		// Draw test object
+				putimage(285, 200, woolf_right_top, XOR_PUT);
+	        
+				flag = 2;
+			break;
+
+			case down_left:
+				putimage(255, 200, woolf_left_bottom, XOR_PUT);
+	        
+				flag = 3;
+			break;
+	      
+			case down_right:
+				putimage(285, 200, woolf_right_bottom, XOR_PUT);
+	        
+				flag = 4;
+			break;
 		}
-		if (dvig==122) {
-			cleardevice();
-			chickens();
-			vlvn(255,200);
+			
+		delay(200);
+		putimage(0 + x, 0 + y, egg, XOR_PUT);		// Erase test object
+		y += 5;
+		putimage(0 + x, 0 + y, egg, XOR_PUT);		// Draw test object
+		delay(10);
+		putimage(0 + x, 0 + y, egg, XOR_PUT);		// Erase test object
+		
+		if(y == 470)
+			y = 0;
+			
+		if(key != 0 && (key != up_left || key != up_right)) {
+			key = bioskey(0);
+			putimage(0 + x, 0 + y, egg, XOR_PUT);		// Erase test object
+			putimage(0 + x, 0 + y, egg, XOR_PUT);		// Draw test object
 		}
-		if(dvig==39) {
-			cleardevice();
-			chickens();
-			vpvv(255,200);
-		}
-		if (dvig==47) {
-			cleardevice();
-			chickens();
-			vpvn(255,200);
-		}
-	}
-	
-	best(bestscore);
-	cleardevice();
-    menutext();
-    active_item(y);
+	  }
+		
+	  best(bestscore);
+	  cleardevice();
+	  menutext();
+	  active_item(61);
+	  
+	  free(egg);
+	  free(woolf_left_top);
+	  free(woolf_left_bottom);
+	  free(woolf_right_top);
+	  free(woolf_right_bottom);
 }
 
 void main() {
