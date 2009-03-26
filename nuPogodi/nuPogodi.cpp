@@ -1,4 +1,4 @@
-﻿//============================================================================
+//============================================================================
 // Name        : nuPogodi.cpp
 // Author      : xolvo & David
 // Version     :
@@ -21,6 +21,7 @@
 #include <conio.h>
 #include <graphics.h>
 #include <dos.h>
+#include <bios.h>
 
 int bestscore=0;
 int sou=100;//Переменная частоты звука
@@ -28,6 +29,7 @@ int sou=100;//Переменная частоты звука
 enum {UP_ARROW=72, LEFT_ARROW=75, DOWN_ARROW=80, RIGHT_ARROW=77, ESC=27, ENTER=13};
 enum bios_keis {bios_up = 18432, bios_right = 19712, bios_down = 20480, bios_left = 19200, bios_esc = 283, bios_enter = 7181, 
                 up_left = 7777, down_left = 11386, up_right = 10279, down_right = 13615};
+
 void action();
 
 void back_pic() {
@@ -229,6 +231,7 @@ void menu() {
 		  text(y);
 			if(isstart(y)==1) {
 				delay(200);
+        cleardevice();
 				bestscore=0;
 				action();
 			}
@@ -443,141 +446,140 @@ cleardevice();
 }
 
 void action() {
-	  int x=0, y=0;
-	  int key=-1;
-	  void *egg, *woolf_left_top, *woolf_left_bottom, *woolf_right_top, *woolf_right_bottom;
-	  int flag = -1;    // 1 - vlvv; 2 - vpvv; 3 - vlvn; 4 - vpvn
-	  
-	/* Draw all objects to get them then */
-	  circle(getmaxx()/2, getmaxy()/2, 5);
-	  vlvv(0, 0);
-	  /* Width and Height */
-	  /* line(0, 130, 90, 130);
-	  line(90, 0, 90, 130); */
+  int x=0, y=0;
+	int key=-1;
+  void *egg, *woolf_left_top, *woolf_left_bottom, *woolf_right_top, *woolf_right_bottom;
+  int flag = -1;    // 1 - vlvv; 2 - vpvv; 3 - vlvn; 4 - vpvn
+  
+/* Draw all objects to get them then */
+	circle(getmaxx()/2, getmaxy()/2, 5);
+  vlvv(0, 0);
+  /* Width and Height */
+  /* line(0, 130, 90, 130);
+  line(90, 0, 90, 130); */
 
-	  vlvn(91, 0);
-	  /* Width and Height */
-	  /* line(90, 130, 180, 130);
-	  line(180, 0, 180, 130); */
-	  
-	  vpvv(182, 0);
-	  /* Width and Height */
-	  /* line(210, 130, 310, 130);
-	  line(310, 0, 310, 130); */
-	  
-	  vpvn(303, 0);
-	  /* Width and Height */
-	  /* line(330, 130, 430, 130);
-	  line(430, 0, 430, 130); */
-	  
-	  /* Allocate memory for this variables */
-	  egg = malloc(imagesize(getmaxx()/2 - 5, getmaxy()/2 - 5, getmaxx()/2 + 5, getmaxy()/2 + 5));
-	  woolf_left_top = malloc(imagesize(0, 0, 90, 130));
-	  woolf_left_bottom = malloc(imagesize(91, 0, 181, 130));
-	  woolf_right_top = malloc(imagesize(212, 0, 312, 130));
-	  woolf_right_bottom = malloc(imagesize(333, 0, 433, 130));
-		
-	  /* Put objects from screen to variables */
-	  getimage(getmaxx()/2 - 5, getmaxy()/2 - 5, getmaxx()/2 + 5, getmaxy()/2 + 5, egg);
-	  getimage(0, 0, 90, 130, woolf_left_top);
-	  getimage(91, 0, 181, 130, woolf_left_bottom);
-	  getimage(212, 0, 312, 130, woolf_right_top);
-	  getimage(333, 0, 433, 130, woolf_right_bottom);
-	/*-----------------------------------*/
+  vlvn(91, 0);
+  /* Width and Height */
+  /* line(90, 130, 180, 130);
+  line(180, 0, 180, 130); */
+  
+  vpvv(182, 0);
+  /* Width and Height */
+  /* line(210, 130, 310, 130);
+  line(310, 0, 310, 130); */
+  
+  vpvn(303, 0);
+  /* Width and Height */
+  /* line(330, 130, 430, 130);
+  line(430, 0, 430, 130); */
+  
+  /* Allocate memory for this variables */
+	egg = malloc(imagesize(getmaxx()/2 - 5, getmaxy()/2 - 5, getmaxx()/2 + 5, getmaxy()/2 + 5));
+  woolf_left_top = malloc(imagesize(0, 0, 90, 130));
+  woolf_left_bottom = malloc(imagesize(91, 0, 181, 130));
+  woolf_right_top = malloc(imagesize(212, 0, 312, 130));
+  woolf_right_bottom = malloc(imagesize(333, 0, 433, 130));
+	
+  /* Put objects from screen to variables */
+	getimage(getmaxx()/2 - 5, getmaxy()/2 - 5, getmaxx()/2 + 5, getmaxy()/2 + 5, egg);
+  getimage(0, 0, 90, 130, woolf_left_top);
+  getimage(91, 0, 181, 130, woolf_left_bottom);
+  getimage(212, 0, 312, 130, woolf_right_top);
+  getimage(333, 0, 433, 130, woolf_right_bottom);
+/*-----------------------------------*/
 
-	  cleardevice();  
-	  chickens();
-	  //vlvv(255, 200);
-	  
-	  line(getmaxx()/2, getmaxy()/2 - 300, getmaxx()/2, getmaxy()/2 + 300);   // OY
-	  line(getmaxx()/2 - 200, getmaxy()/2, getmaxx()/2 + 200, getmaxy()/2);   // OX
-	  
-	  //putimage(255, 200, woolf_right_top, XOR_PUT);
-	  putimage(255, 200, woolf_left_top, XOR_PUT);
-	  flag = 1;
-		
-	  while(key != bios_esc) {
-	    putimage(0 + x, 0 + y, egg, XOR_PUT);		// Draw test object
+  /* line(getmaxx()/2, getmaxy()/2 - 300, getmaxx()/2, getmaxy()/2 + 300);   // OY
+  line(getmaxx()/2 - 200, getmaxy()/2, getmaxx()/2 + 200, getmaxy()/2);   // OX */
+  
+  cleardevice();  
+	chickens();
+  putimage(255, 200, woolf_left_top, XOR_PUT);
+  flag = 1;
+  
+  outtextxy(20, 20, "debug");
+	
+	while(key != bios_esc) {
+		putimage(getmaxx()/2 + x, 0 + y, egg, XOR_PUT);		// Draw test object
 		key = bioskey(1);
-	    
-	    if(key != 0)
-	      switch(flag) {
-	        case 1:
-	          putimage(255, 200, woolf_left_top, XOR_PUT);
-	        break;
-	        
-	        case 2:
-	          putimage(285, 200, woolf_right_top, XOR_PUT);
-	        break;
-	        
-	        case 3:
-	          putimage(255, 200, woolf_left_bottom, XOR_PUT);
-	        break;
-	        
-	        case 4:
-	          putimage(285, 200, woolf_right_bottom, XOR_PUT);
-	        break;
-	      }
-			
+    
+    if(key != 0)
+      switch(flag) {
+        case 1:
+          putimage(255, 200, woolf_left_top, XOR_PUT);
+        break;
+        
+        case 2:
+          putimage(285, 200, woolf_right_top, XOR_PUT);
+        break;
+        
+        case 3:
+          putimage(255, 200, woolf_left_bottom, XOR_PUT);
+        break;
+        
+        case 4:
+          putimage(285, 200, woolf_right_bottom, XOR_PUT);
+        break;
+      }
+		
 		switch(key) {
 			case up_left:
-				putimage(0 + x, 0 + y, egg, XOR_PUT);		// Erase test object
+				putimage(getmaxx()/2 + x, 0 + y, egg, XOR_PUT);		// Erase test object
 				x -= 10;
-				putimage(0 + x, 0 + y, egg, XOR_PUT);		// Draw test object
-				putimage(255, 200, woolf_left_top, XOR_PUT);
-	        
-				flag = 1;
+				putimage(getmaxx()/2 + x, 0 + y, egg, XOR_PUT);		// Draw test object
+        putimage(255, 200, woolf_left_top, XOR_PUT);
+        
+        flag = 1;
 			break;
-				
+			
 			case up_right:
-				putimage(0 + x, 0 + y, egg, XOR_PUT);		// Erase test object
+				putimage(getmaxx()/2 + x, 0 + y, egg, XOR_PUT);		// Erase test object
 				x += 10;
-				putimage(0 + x, 0 + y, egg, XOR_PUT);		// Draw test object
-				putimage(285, 200, woolf_right_top, XOR_PUT);
-	        
-				flag = 2;
+				putimage(getmaxx()/2 + x, 0 + y, egg, XOR_PUT);		// Draw test object
+        putimage(285, 200, woolf_right_top, XOR_PUT);
+        
+        flag = 2;
 			break;
 
-			case down_left:
-				putimage(255, 200, woolf_left_bottom, XOR_PUT);
-	        
-				flag = 3;
-			break;
-	      
-			case down_right:
-				putimage(285, 200, woolf_right_bottom, XOR_PUT);
-	        
-				flag = 4;
-			break;
+      case down_left:
+        putimage(255, 200, woolf_left_bottom, XOR_PUT);
+        
+        flag = 3;
+      break;
+      
+      case down_right:
+        putimage(285, 200, woolf_right_bottom, XOR_PUT);
+        
+        flag = 4;
+      break;
 		}
-			
-		delay(200);
-		putimage(0 + x, 0 + y, egg, XOR_PUT);		// Erase test object
+		
+		delay(20);
+		putimage(getmaxx()/2 + x, 0 + y, egg, XOR_PUT);		// Erase test object
 		y += 5;
-		putimage(0 + x, 0 + y, egg, XOR_PUT);		// Draw test object
+		putimage(getmaxx()/2 + x, 0 + y, egg, XOR_PUT);		// Draw test object
 		delay(10);
-		putimage(0 + x, 0 + y, egg, XOR_PUT);		// Erase test object
+		putimage(getmaxx()/2 + x, 0 + y, egg, XOR_PUT);		// Erase test object
 		
 		if(y == 470)
 			y = 0;
 			
 		if(key != 0 && (key != up_left || key != up_right)) {
 			key = bioskey(0);
-			putimage(0 + x, 0 + y, egg, XOR_PUT);		// Erase test object
-			putimage(0 + x, 0 + y, egg, XOR_PUT);		// Draw test object
+			putimage(getmaxx()/2 + x, 0 + y, egg, XOR_PUT);		// Erase test object
+			putimage(getmaxx()/2 + x, 0 + y, egg, XOR_PUT);		// Draw test object
 		}
-	  }
-		
-	  best(bestscore);
-	  cleardevice();
-	  menutext();
-	  active_item(61);
-	  
-	  free(egg);
-	  free(woolf_left_top);
-	  free(woolf_left_bottom);
-	  free(woolf_right_top);
-	  free(woolf_right_bottom);
+	}
+	
+	best(bestscore);
+	cleardevice();
+  menutext();
+  active_item(61);
+  
+  free(egg);
+  free(woolf_left_top);
+  free(woolf_left_bottom);
+  free(woolf_right_top);
+  free(woolf_right_bottom);
 }
 
 void main() {
@@ -594,7 +596,7 @@ void main() {
     exit (-1);
   }
 
-/* Splash befor the game */
+/* Splash befor the game 
   for(i=0;i<260;i+=20) {
 		cleardevice();
 		back_pic();
