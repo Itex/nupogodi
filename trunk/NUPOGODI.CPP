@@ -1,4 +1,4 @@
-//============================================================================
+﻿//============================================================================
 // Name        : nuPogodi.cpp
 // Author      : xolvo & David
 // Version     :
@@ -92,92 +92,136 @@ void two_chickens(int x, int y) {
 	floodfill(x - 35, y + 8, 15);
 }
 
-void lue()
+int egg(int buf)
 {
-setcolor(15);
-circle(182,191,6);
-delay(100);
-setcolor(BLACK);
-circle(182,191,6);
+switch (buf){
+case 1:
+	{
+	setcolor(BLACK);
+	circle(250,236,6);
+	circle(237,259,6);
+	circle(390,232,6);
+	circle(390,260,6);
+	setcolor(15);
+	circle(182,191,6);
+	}
+break;	
+case 2:
+	{
+	setcolor(BLACK);
+	circle(250,236,6);
+	circle(237,259,6);
+	circle(390,232,6);
+	circle(390,260,6);
+	setcolor(15);
+	circle(456,190,6);
+	}
+break;	
+case 3:
+	{
+	setcolor(BLACK);
+	circle(250,236,6);
+	circle(237,259,6);
+	circle(390,232,6);
+	circle(390,260,6);
+	setcolor(15);
+	circle(185,252,6);
+	}
+break;
+case 4:
+	{
+	setcolor(BLACK);
+	circle(250,236,6);
+	circle(237,259,6);
+	circle(390,232,6);
+	circle(390,260,6);
+	setcolor(15);
+	circle(456,246,6);
+	}
+break;
+case 11:
+	{
+	setcolor(BLACK);
+	circle(182,191,6);
+	setcolor(15);
+	circle(222,212,6);
+	}
+break;	
+case 12:
+	{
+	setcolor(BLACK);
+	circle(456,190,6);
+	setcolor(15);
+	circle(423,209,6);
+	}
+break;	
+case 13:
+	{
+	setcolor(BLACK);
+	circle(185,252,6);
+	setcolor(15);
+	circle(210,255,6);
+	}
+break;	
+case 14:
+	{
+	setcolor(BLACK);
+	circle(456,246,6);
+	setcolor(15);
+	circle(423,252,6);
+	}
+break;	
+case 21:
+	{
+	setcolor(BLACK);
+	circle(222,212,6);
+	setcolor(15);
+	circle(250,236,6);
+	}
+break;	
+case 22:
+	{
+	setcolor(BLACK);
+	circle(423,209,6);
+	setcolor(15);
+	circle(390,232,6);
+	}
+break;	
+case 23:
+	{
+	setcolor(BLACK);
+	circle(210,255,6);
+	setcolor(15);
+	circle(237,259,6);
+	}
+break;	
+case 24:
+	{
+	setcolor(BLACK);
+	circle(423,252,6);
+	setcolor(15);
+	circle(390,260,6);
+	}
+break;
+default: 
 
-setcolor(15);
-circle(222,212,6);
-delay(100);
-setcolor(BLACK);
-circle(222,212,6);
-
-setcolor(15);
-circle(250,236,6);
-delay(100);
-setcolor(BLACK);
-circle(250,236,6);
+	{
+	setcolor(BLACK);
+	circle(250,236,6);
+	circle(237,259,6);
+	circle(390,232,6);
+	circle(390,260,6);
+	}
+}
+if (buf>19)
+buf=-25;
+delay(800);
+return buf+10;
 }
 
-void lde()
-{
-setcolor(15);
-circle(185,252,6);
-delay(100);
-setcolor(BLACK);
-circle(185,252,6);
-
-setcolor(15);
-circle(210,255,6);
-delay(100);
-setcolor(BLACK);
-circle(210,255,6);
-
-setcolor(15);
-circle(237,259,6);
-delay(100);
-setcolor(BLACK);
-circle(237,259,6);
-}
 
 
-void rue()
-{
-setcolor(15);
-circle(456,190,6);
-delay(100);
-setcolor(BLACK);
-circle(456,190,6);
 
-setcolor(15);
-circle(423,209,6);
-delay(100);
-setcolor(BLACK);
-circle(423,209,6);
-
-
-setcolor(15);
-circle(390,232,6);
-delay(100);
-setcolor(BLACK);
-circle(390,232,6);
-}
-
-void rde()
-{
-setcolor(15);
-circle(456,246,6);
-delay(100);
-setcolor(BLACK);
-circle(456,246,6);
-
-setcolor(15);
-circle(423,252,6);
-delay(100);
-setcolor(BLACK);
-circle(423,252,6);
-
-
-setcolor(15);
-circle(390,260,6);
-delay(100);
-setcolor(BLACK);
-circle(390,260,6);
-}
 int isstart(int y) {
 	int value=0;
 
@@ -532,14 +576,20 @@ cleardevice();
 void action() {
   int key=up_left;
   int wtype=0; //1-vlvv 2-vpvv 3-vlvn 4-vpvn
-
+int buf=-1;
+time_t t;
   cleardevice();
   vlvv(255,200,7);
   chickens();
 
 	while(key != bios_esc)
 	{
-	rde();
+	if(buf<0)
+	{
+	srand((unsigned) time(&t));
+	buf=rand()%4;
+	}
+	buf=egg(buf);
 	switch(wtype) {
 	      case 1:	vlvv(255,200,BLACK); break;
 	      case 2:	vpvv(255,200,BLACK); break;
@@ -566,6 +616,8 @@ void action() {
 
 	if(wtype==0)
 	vlvv(255,200,BLACK);
+
+	
 	}
 
 	best(bestscore);
