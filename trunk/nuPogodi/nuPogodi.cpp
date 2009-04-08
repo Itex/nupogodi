@@ -1,4 +1,4 @@
-//============================================================================
+﻿//============================================================================
 // Name        : nuPogodi.cpp
 // Author      : xolvo & David
 // Version     :
@@ -7,11 +7,11 @@
 //============================================================================
 
 /* TODO list for this project
-	1. Переделать фон
-	2. Вставить музыку
-	3. Сделать лучший результат
-	4. Изменить сканирование движения
-	5. Исправить Devid на David
+	1. Переделать фон   --complete
+	2. Вставить музыку   --complete
+	3. Сделать лучший результат   --complete
+	4. Изменить сканирование движения   --complete
+	5. Исправить Devid на David   --complete
 	6. Подумать о реализации игры
 /*----------------------------*/
 
@@ -92,92 +92,136 @@ void two_chickens(int x, int y) {
 	floodfill(x - 35, y + 8, 15);
 }
 
-void lue()
+int egg(int buf)
 {
-setcolor(15);
-circle(182,191,6);
-delay(100);
-setcolor(BLACK);
-circle(182,191,6);
+switch (buf){
+case 1:
+	{
+	setcolor(BLACK);
+	circle(250,236,6);
+	circle(237,259,6);
+	circle(390,232,6);
+	circle(390,260,6);
+	setcolor(15);
+	circle(182,191,6);
+	}
+break;	
+case 2:
+	{
+	setcolor(BLACK);
+	circle(250,236,6);
+	circle(237,259,6);
+	circle(390,232,6);
+	circle(390,260,6);
+	setcolor(15);
+	circle(456,190,6);
+	}
+break;	
+case 3:
+	{
+	setcolor(BLACK);
+	circle(250,236,6);
+	circle(237,259,6);
+	circle(390,232,6);
+	circle(390,260,6);
+	setcolor(15);
+	circle(185,252,6);
+	}
+break;
+case 4:
+	{
+	setcolor(BLACK);
+	circle(250,236,6);
+	circle(237,259,6);
+	circle(390,232,6);
+	circle(390,260,6);
+	setcolor(15);
+	circle(456,246,6);
+	}
+break;
+case 11:
+	{
+	setcolor(BLACK);
+	circle(182,191,6);
+	setcolor(15);
+	circle(222,212,6);
+	}
+break;	
+case 12:
+	{
+	setcolor(BLACK);
+	circle(456,190,6);
+	setcolor(15);
+	circle(423,209,6);
+	}
+break;	
+case 13:
+	{
+	setcolor(BLACK);
+	circle(185,252,6);
+	setcolor(15);
+	circle(210,255,6);
+	}
+break;	
+case 14:
+	{
+	setcolor(BLACK);
+	circle(456,246,6);
+	setcolor(15);
+	circle(423,252,6);
+	}
+break;	
+case 21:
+	{
+	setcolor(BLACK);
+	circle(222,212,6);
+	setcolor(15);
+	circle(250,236,6);
+	}
+break;	
+case 22:
+	{
+	setcolor(BLACK);
+	circle(423,209,6);
+	setcolor(15);
+	circle(390,232,6);
+	}
+break;	
+case 23:
+	{
+	setcolor(BLACK);
+	circle(210,255,6);
+	setcolor(15);
+	circle(237,259,6);
+	}
+break;	
+case 24:
+	{
+	setcolor(BLACK);
+	circle(423,252,6);
+	setcolor(15);
+	circle(390,260,6);
+	}
+break;
+default: 
 
-setcolor(15);
-circle(222,212,6);
-delay(100);
-setcolor(BLACK);
-circle(222,212,6);
-
-setcolor(15);
-circle(250,236,6);
-delay(100);
-setcolor(BLACK);
-circle(250,236,6);
+	{
+	setcolor(BLACK);
+	circle(250,236,6);
+	circle(237,259,6);
+	circle(390,232,6);
+	circle(390,260,6);
+	}
+}
+if (buf>19)
+buf=-25;
+delay(300);
+return buf+10;
 }
 
-void lde()
-{
-setcolor(15);
-circle(185,252,6);
-delay(100);
-setcolor(BLACK);
-circle(185,252,6);
-
-setcolor(15);
-circle(210,255,6);
-delay(100);
-setcolor(BLACK);
-circle(210,255,6);
-
-setcolor(15);
-circle(237,259,6);
-delay(100);
-setcolor(BLACK);
-circle(237,259,6);
-}
 
 
-void rue()
-{
-setcolor(15);
-circle(456,190,6);
-delay(100);
-setcolor(BLACK);
-circle(456,190,6);
 
-setcolor(15);
-circle(423,209,6);
-delay(100);
-setcolor(BLACK);
-circle(423,209,6);
-
-
-setcolor(15);
-circle(390,232,6);
-delay(100);
-setcolor(BLACK);
-circle(390,232,6);
-}
-
-void rde()
-{
-setcolor(15);
-circle(456,246,6);
-delay(100);
-setcolor(BLACK);
-circle(456,246,6);
-
-setcolor(15);
-circle(423,252,6);
-delay(100);
-setcolor(BLACK);
-circle(423,252,6);
-
-
-setcolor(15);
-circle(390,260,6);
-delay(100);
-setcolor(BLACK);
-circle(390,260,6);
-}
 int isstart(int y) {
 	int value=0;
 
@@ -530,49 +574,52 @@ cleardevice();
 }
 
 void action() {
-  int key=up_left;
-  int wtype=0; //1-vlvv 2-vpvv 3-vlvn 4-vpvn
-
+  int key;
+  int wtype = 1; //1-vlvv 2-vpvv 3-vlvn 4-vpvn
+  int buf = -1;
+  time_t t;
   cleardevice();
   vlvv(255,200,7);
   chickens();
 
-	while(key != bios_esc)
-	{
-	rde();
-	switch(wtype) {
-	      case 1:	vlvv(255,200,BLACK); break;
-	      case 2:	vpvv(255,200,BLACK); break;
-	      case 3:	vlvn(255,200,BLACK); break;
-	      case 4:	vpvn(255,200,BLACK); break;
-		      }
-	switch(key) {
-			case up_left: wtype=vlvv(255,200,7); break;
-			case up_right: wtype=vpvv(255,200,7); break;
-			case down_left:	wtype=vlvn(255,200,7); break;
-			case down_right: wtype=vpvn(255,200,7);	break;
-			default:  switch(wtype){
-						case 1: key=up_left; wtype=vlvv(255,200,7); break;
-						case 2: key=up_right; wtype=vpvv(255,200,7); break;
-						case 3: key=down_left; wtype=vlvn(255,200,7); break;
-						case 4: key=down_right; wtype=vpvn(255,200,7);	break;
-						}
-		      }
+	while(key != bios_esc) {
+    if(buf<0) {
+      srand((unsigned) time(&t));
+      buf=rand()%4 + 1;
+    }
+    buf=egg(buf);
 
+    if(key = bioskey(1)) {
+      switch(wtype) {
+        case 1:	vlvv(255,200,BLACK); break;
+        case 2:	vpvv(255,200,BLACK); break;
+        case 3:	vlvn(255,200,BLACK); break;
+        case 4:	vpvn(255,200,BLACK); break;
+      }
 
-		if(key != 0 && (key != up_left || key != up_right))
-		       key = bioskey(0);
+      switch(key) {
+        case up_left: wtype=vlvv(255,200,7); break;
+        case up_right: wtype=vpvv(255,200,7); break;
+        case down_left:	wtype=vlvn(255,200,7); break;
+        case down_right: wtype=vpvn(255,200,7);	break;
+      }
 
+      switch(wtype){
+        case 1: wtype=vlvv(255,200,7); break;
+        case 2: wtype=vpvv(255,200,7); break;
+        case 3: wtype=vlvn(255,200,7); break;
+        case 4: wtype=vpvn(255,200,7);	break;
+      }
+    }
 
-	if(wtype==0)
-	vlvv(255,200,BLACK);
+    if(key != 0 && (key != up_left || key != up_right || key != down_left || key != down_right))
+      key = bioskey(0);
 	}
 
 	best(bestscore);
 	cleardevice();
-  menutext();
-  active_item(61);
-
+	menutext();
+	active_item(61);
 }
 
 void main() {
@@ -589,7 +636,7 @@ void main() {
     exit (-1);
   }
 
-/* Splash befor the game
+/* Splash befor the game */
   for(i=0;i<260;i+=20) {
 		cleardevice();
 		back_pic();
