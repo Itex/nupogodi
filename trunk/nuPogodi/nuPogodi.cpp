@@ -1,4 +1,4 @@
-﻿//============================================================================
+//============================================================================
 // Name        : nuPogodi.cpp
 // Author      : xolvo & David
 // Version     :
@@ -523,8 +523,6 @@ outtextxy(280,225,"First Game?");
 else
 {
    fscanf(fPtr,"%d",&oldbest);
-   printf("%d \n",bestscore);
-
 fclose(fPtr);
 
 }
@@ -581,7 +579,8 @@ void action() {
   cleardevice();
   vlvv(255,200,7);
   chickens();
-
+  char bs[20];//char bestscore
+  int fal=0;//oshibki
 	while(key != bios_esc) {
     if(buf<0) {
       srand((unsigned) time(&t));
@@ -591,35 +590,58 @@ void action() {
 
     if(key = bioskey(1)) {
       switch(wtype) {
-        case 1:	vlvv(255,200,BLACK); break;
-        case 2:	vpvv(255,200,BLACK); break;
-        case 3:	vlvn(255,200,BLACK); break;
-        case 4:	vpvn(255,200,BLACK); break;
+	case 1:	vlvv(255,200,BLACK); break;
+	case 2:	vpvv(255,200,BLACK); break;
+	case 3:	vlvn(255,200,BLACK); break;
+	case 4:	vpvn(255,200,BLACK); break;
       }
 
       switch(key) {
-        case up_left: wtype=vlvv(255,200,7); break;
-        case up_right: wtype=vpvv(255,200,7); break;
-        case down_left:	wtype=vlvn(255,200,7); break;
-        case down_right: wtype=vpvn(255,200,7);	break;
+	case up_left: wtype=vlvv(255,200,7); break;
+	case up_right: wtype=vpvv(255,200,7); break;
+	case down_left:	wtype=vlvn(255,200,7); break;
+	case down_right: wtype=vpvn(255,200,7);	break;
       }
 
       switch(wtype){
-        case 1: wtype=vlvv(255,200,7); break;
-        case 2: wtype=vpvv(255,200,7); break;
-        case 3: wtype=vlvn(255,200,7); break;
-        case 4: wtype=vpvn(255,200,7);	break;
+	case 1: wtype=vlvv(255,200,7); break;
+	case 2: wtype=vpvv(255,200,7); break;
+	case 3: wtype=vlvn(255,200,7); break;
+	case 4: wtype=vpvn(255,200,7);	break;
       }
+    }
+
+    if(wtype==buf-20) //Proverka na popadenie v korzinu
+	{
+	bestscore++;
+	setcolor(BLACK);
+	itoa(bestscore-1,bs,10);
+	outtextxy(0,0,bs);
+	setcolor(15);
+	itoa(bestscore,bs,10);
+	outtextxy(0,0,bs);
+	}
+
+    if(buf-20>0 && wtype!=buf-20)//proverka osibok
+    {
+    fal++;
+    printf("%d ",fal);
     }
 
     if(key != 0 && (key != up_left || key != up_right || key != down_left || key != down_right))
       key = bioskey(0);
+
+	if(fal==5)
+	key=bios_esc;
+
+
 	}
 
 	best(bestscore);
 	cleardevice();
 	menutext();
 	active_item(61);
+
 }
 
 void main() {
