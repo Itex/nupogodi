@@ -25,6 +25,7 @@
 #include <bios.h>
 
 int bestscore=0;
+int speed=300;
 int sou=100;//Переменная частоты звука
 
 enum {UP_ARROW=72, LEFT_ARROW=75, DOWN_ARROW=80, RIGHT_ARROW=77, ESC=27, ENTER=13};
@@ -102,10 +103,15 @@ case 1:
 	circle(237,259,6);
 	circle(390,232,6);
 	circle(390,260,6);
+	arc(265,252,0,180,6);
+	arc(375,254,0,180,6);
+	arc(266,272,0,180,6);
+	arc(375,272,0,180,6);
+
 	setcolor(15);
 	circle(182,191,6);
 	}
-break;	
+break;
 case 2:
 	{
 	setcolor(BLACK);
@@ -113,10 +119,15 @@ case 2:
 	circle(237,259,6);
 	circle(390,232,6);
 	circle(390,260,6);
+	arc(265,252,0,180,6);
+	arc(375,254,0,180,6);
+	arc(266,272,0,180,6);
+	arc(375,272,0,180,6);
+
 	setcolor(15);
 	circle(456,190,6);
 	}
-break;	
+break;
 case 3:
 	{
 	setcolor(BLACK);
@@ -124,6 +135,11 @@ case 3:
 	circle(237,259,6);
 	circle(390,232,6);
 	circle(390,260,6);
+	arc(265,252,0,180,6);
+	arc(375,254,0,180,6);
+	arc(266,272,0,180,6);
+	arc(375,272,0,180,6);
+
 	setcolor(15);
 	circle(185,252,6);
 	}
@@ -135,6 +151,11 @@ case 4:
 	circle(237,259,6);
 	circle(390,232,6);
 	circle(390,260,6);
+	arc(265,252,0,180,6);
+	arc(375,254,0,180,6);
+	arc(266,272,0,180,6);
+	arc(375,272,0,180,6);
+
 	setcolor(15);
 	circle(456,246,6);
 	}
@@ -170,7 +191,7 @@ case 14:
 	setcolor(15);
 	circle(423,252,6);
 	}
-break;	
+break;
 case 21:
 	{
 	setcolor(BLACK);
@@ -178,7 +199,7 @@ case 21:
 	setcolor(15);
 	circle(250,236,6);
 	}
-break;	
+break;
 case 22:
 	{
 	setcolor(BLACK);
@@ -194,7 +215,7 @@ case 23:
 	setcolor(15);
 	circle(237,259,6);
 	}
-break;	
+break;
 case 24:
 	{
 	setcolor(BLACK);
@@ -213,9 +234,10 @@ default:
 	circle(390,260,6);
 	}
 }
-if (buf>19)
+if (buf>29)
 buf=-25;
-delay(300);
+delay(speed);
+speed=speed-1;
 return buf+10;
 }
 
@@ -247,7 +269,8 @@ void active_item(int y) {
 
 void text(int y) {
   if(y==61) {
-		outtextxy(240, 70, "Will start in 2 seconds...");
+		outtextxy(240, 70, "Get READY!!!!!");
+		delay(1000);
 	}
   if(y==121) {
 		outtextxy(370, 70, "Hight score");
@@ -459,6 +482,7 @@ return 4;
 }
 
 void chickens() {
+int h;//kol-vo serdec
 	setcolor(14);
 	setfillstyle(9, 14);
 	line(getmaxx()/2 - 190, getmaxy()/2 - 40, (getmaxx()/2 - 190) + 50, getmaxy()/2 - 40);
@@ -484,7 +508,7 @@ void chickens() {
 	setcolor(4);
 	setfillstyle(9, 4);
 
-	line(getmaxx()/2 - 190, getmaxy()/2 + 20, (getmaxx()/2 - 190) + 50, getmaxy()/2 + 20);
+																																																																																																																																	line(getmaxx()/2 - 190, getmaxy()/2 + 20, (getmaxx()/2 - 190) + 50, getmaxy()/2 + 20);
 	/* start of left down chicken */
 	ellipse(getmaxx()/2 - 165, getmaxy()/2 + 12, 0, 360, 20, 8);
 	floodfill(getmaxx()/2 - 165, getmaxy()/2 + 12,4);
@@ -500,6 +524,17 @@ void chickens() {
 	circle(getmaxx()/2 + 150, getmaxy()/2, 7);
 	/* end of chicken */
 	line(458,  260, 386, 270);//line
+
+	//serdca//
+	setcolor(12);
+	for(h=0;h<200;h=h+45)
+	{
+	arc(400+h,40,0,180,10);
+	arc(400+10+10+h,40,0,180,10);
+	line(400-10+h,40,400+10+h,60);
+	line(400+10+10+10+h,40,400+10+h,60);
+	floodfill(400+h+10,42,12);
+	}
 }
 void best(int bestscore)
 {
@@ -531,8 +566,13 @@ fclose(fPtr);
 if(oldbest>bestscore)
 {
 setcolor(15);
-outtextxy(290,230,"Try Again");
-getch();
+outtextxy(295,210,"You Lose");
+outtextxy(302,230,"Try to");
+outtextxy(253,250,"Improve High score");
+while (1)
+if(getch()==ESC || getch()==ENTER)
+break;
+
 clrscr();
 cleardevice();
 }
@@ -573,6 +613,7 @@ cleardevice();
 
 void action() {
   int key;
+  speed=300;
   int wtype = 1; //1-vlvv 2-vpvv 3-vlvn 4-vpvn
   int buf = -1;
   time_t t;
@@ -611,21 +652,32 @@ void action() {
       }
     }
 
-    if(wtype==buf-20) //Proverka na popadenie v korzinu
+    if(wtype==buf-30) //Proverka na popadenie v korzinu
 	{
+	settextstyle(0, 0, 4);
 	bestscore++;
 	setcolor(BLACK);
 	itoa(bestscore-1,bs,10);
-	outtextxy(0,0,bs);
+	outtextxy(10,10,bs);
 	setcolor(15);
 	itoa(bestscore,bs,10);
-	outtextxy(0,0,bs);
+	outtextxy(10,10,bs);
+	switch(buf-30){
+	case 1:arc(265,252,0,180,6); break;
+	case 2:arc(375,254,0,180,6); break;
+	case 3:arc(266,272,0,180,6); break;
+	case 4:arc(375,272,0,180,6); break;
+	}
 	}
 
-    if(buf-20>0 && wtype!=buf-20)//proverka osibok
+    if(buf-30>0 && wtype!=buf-30)//proverka osibok
     {
     fal++;
-    printf("%d ",fal);
+    setcolor(12);
+    setfillstyle(0,12);
+    floodfill(400+(fal-1)*45,42,12);
+
+
     }
 
     if(key != 0 && (key != up_left || key != up_right || key != down_left || key != down_right))
@@ -636,7 +688,7 @@ void action() {
 
 
 	}
-
+	settextstyle(0, 0, 1);
 	best(bestscore);
 	cleardevice();
 	menutext();
