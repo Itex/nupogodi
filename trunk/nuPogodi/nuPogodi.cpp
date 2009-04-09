@@ -25,15 +25,16 @@
 #include <bios.h>
 
 int bestscore=0;
-int speed=300;
-int sou=100;//Переменная частоты звука
+int speed = 500;
+int sou=100;    //Переменная частоты звука
+int option_flag = -1;
 
 enum {UP_ARROW=72, LEFT_ARROW=75, DOWN_ARROW=80, RIGHT_ARROW=77, ESC=27, ENTER=13};
 enum bios_keis {bios_up = 18432, bios_right = 19712, bios_down = 20480, bios_left = 19200, bios_esc = 283, bios_enter = 7181,
 		up_left = 7777, down_left = 11386, up_right = 10279, down_right = 13615};
 
 void action();
-
+void text(int y);
 
 void back_pic() {
 	settextstyle(4, 0, 3); // font family, derection, size
@@ -252,8 +253,8 @@ return buf+10;
 int isstart(int y) {
 	int value=0;
 
-	if(y==61)
-		value=1;
+  if(y==61)
+		value = 1;
 
 	return value;
 }
@@ -270,6 +271,11 @@ int arrow(char KeyStroke) {
 void active_item(int y) {
   setfillstyle(9, 12);
   floodfill(31, y, 15);
+}
+
+void active_options_item(int y) {
+  setfillstyle(9, 12);
+  floodfill(251, y, 15);
 }
 
 void text(int y) {
@@ -291,7 +297,7 @@ void text(int y) {
 		fclose(st);
 		}
 	}
-  if(y==181 || y==1) {
+  if(y == 181) {
 		/* TODO think about rules improvements */
 
 		outtextxy(240, 70, "To win in this game you should catch all");
@@ -312,10 +318,12 @@ void text(int y) {
 void menutext() {
   /*нарисовать прямоугольник*/
   rectangle(30, 60, 200, 100);
-  /*нарисовать втор� �й прямоугольник*/
+  /*нарисовать второй прямоугольник*/
   rectangle(30, 120, 200, 160);
   /*нарисовать третий прямоугольник*/
   rectangle(30, 180, 200, 220);
+  /* нарисовать еще прямоугольник для опции */
+  rectangle(30, 240, 200, 280);
   /*нарисовать главную область*/
   rectangle(230, 60, getmaxx()-50, getmaxy()-50);
 
@@ -326,8 +334,113 @@ void menutext() {
   outtextxy(35, 65, "Start the game");
   outtextxy(35, 125, "Hight score");
   outtextxy(35, 185, "Rules");
+  outtextxy(35, 245, "Options");
 }
 
+void options_menu() {
+  int arrow_opt_key = -1;
+  int y_opt = 81;
+  
+  cleardevice();
+  
+  do {
+    /*нарисовать прямоугольник*/
+    rectangle(250, 80, 420, 120);
+    /*нарисовать второй прямоугольник*/
+    rectangle(250, 140, 420, 180);
+    /*нарисовать третий прямоугольник*/
+    rectangle(250, 200, 420, 240);
+    /* нарисовать еще прямоугольник для опции */
+    rectangle(250, 260, 420, 300);
+    
+    outtextxy(255, 85, "Beginner");
+    outtextxy(255, 145, "Normal");
+    outtextxy(255, 205, "Hard");
+    outtextxy(255, 265, "!!! Rock !!!");
+    
+    active_options_item(y_opt);
+    menutext();
+    active_item(241);
+    arrow_opt_key = arrow(arrow_opt_key);
+    
+    switch(arrow_opt_key) {
+      case DOWN_ARROW:
+        /* ======================================= */
+        /* !!! ОЧЕНЬ НУЖНАЯ ДВОЙНАЯ ПРОВЕРКА !!!   */
+        /* ======================================= */
+        /* двойная проверка нужна, что бы вдруг при нажатии на */
+        /* стрелку вверх не произшло прибавление 60 на последующем этапе */
+        /* и экран не закрасился */
+        if(y_opt >= 261)
+          y_opt = 21;
+
+        active_options_item(y_opt += 60);
+        cleardevice();
+
+        //if(y_opt >= 261)    /* т.к. пунктов меню всего 4 делаем так */
+          //y_opt = 21;        /* для последующего сложения с 60 и получения правильных результатов */
+      break;
+
+      case UP_ARROW:
+        switch(y_opt) {
+          case 21:
+            y_opt=201; /* что бы исправить переход вниз */
+            active_options_item(y_opt);
+            cleardevice();
+          break;
+
+          case 141:
+            y_opt=81;
+            active_options_item(y_opt);
+            cleardevice();
+          break;
+
+          case 81:
+            y_opt=261;
+            active_options_item(y_opt);
+            cleardevice();
+          break;
+
+          case 201:
+            y_opt=141;
+            active_options_item(y_opt);
+            cleardevice();
+          break;
+          
+          case 261:
+            y_opt=201;
+            active_options_item(y_opt);
+            cleardevice();
+          break;
+        }
+      break;
+
+      case ENTER:
+        switch(y_opt) {
+          case 81:
+            speed = 500;
+          break;
+          
+          case 141:
+            speed = 300;
+          break;
+          
+          case 201:
+            speed = 200;
+          break;
+          
+          case 261:
+            speed = 100;
+          break;
+        }
+      break;
+    }
+  } while(arrow_opt_key != ESC && arrow_opt_key != ENTER);
+  
+  cleardevice();
+  menutext();
+  active_item(241);
+}
 
 void menu() {
 	char arrow_key;
@@ -341,62 +454,79 @@ void menu() {
 	arrow_key=arrow(arrow_key);
 
     switch(arrow_key) {
-		case DOWN_ARROW:
-		/* !!! ОЧЕНЬ НУЖНАЯ ДВОЙНАЯ ПРОВЕРКА !!! */
-		/* ======================================= */
-		/* двойная проверка нужна, что бы вдруг при нажатии на */
-		/* стрелку вверх не произшло прибавление 60 на последующем этапе */
-		/* и экран не закрасился */
-		  if(y>=181)
-		    y=1;
-		  cleardevice();
-		  menutext();
-		  active_item(y+=60);
-		  if(y>=181) /* т.к. пунктов меню всего три делаем так */
-		    y=1;     /* для последующего сложения с 60 и получения правильных результатов */
-		break;
+      case DOWN_ARROW:
+        /* ======================================= */
+        /* !!! ОЧЕНЬ НУЖНАЯ ДВОЙНАЯ ПРОВЕРКА !!!   */
+        /* ======================================= */
+        /* двойная проверка нужна, что бы вдруг при нажатии на */
+        /* стрелку вверх не произшло прибавление 60 на последующем этапе */
+        /* и экран не закрасился */
+        if(y >= 241)
+          y = 1;
 
-		case UP_ARROW:
-		  switch(y) {
-			case 1:
-			  y=121; /* что бы исправить переход вниз */
-			  cleardevice();
-	      menutext();
-	      active_item(y);
-			break;
+        cleardevice();
+        menutext();
+        active_item(y+=60);
+        
+        printf("%d", y);
+        
+        //if(y >= 241)    /* т.к. пунктов меню всего 4 делаем так */
+          //y = 1;        /* для последующего сложения с 60 и получения правильных результатов */
+      break;
 
-			case 121:
-			  y=61;
-			  cleardevice();
-	      menutext();
-	      active_item(y);
-			break;
+      case UP_ARROW:
+        switch(y) {
+          case 1:
+            y=181; /* что бы исправить переход вниз */
+            cleardevice();
+            menutext();
+            active_item(y);
+          break;
 
-			case 61:
-			  y=181;
-			  cleardevice();
-			  menutext();
-			  active_item(y);
-			break;
+          case 121:
+            y=61;
+            cleardevice();
+            menutext();
+            active_item(y);
+          break;
 
-			case 181:
-			  y=121;
-			  cleardevice();
-	      menutext();
-	      active_item(y);
-			break;
-		  }
-		break;
+          case 61:
+            y=241;
+            cleardevice();
+            menutext();
+            active_item(y);
+          break;
 
-		case ENTER:
-		  text(y);
-			if(isstart(y)==1) {
-				delay(200);
-	cleardevice();
-				bestscore=0;
-				action();
-			}
-		break;
+          case 181:
+            y=121;
+            cleardevice();
+            menutext();
+            active_item(y);
+          break;
+          
+          case 241:
+            y=181;
+            cleardevice();
+            menutext();
+            active_item(y);
+          break;
+        }
+      break;
+
+      case ENTER:
+        printf("%d", y);
+        text(y);
+        
+        if(y == 241)
+          options_menu();
+
+        if(isstart(y)==1) {
+          delay(200);
+          cleardevice();
+          bestscore=0;
+          action();
+        }
+      break;
     }
   } while(arrow_key!=ESC);
 }
@@ -513,7 +643,7 @@ int h;//kol-vo serdec
 	setcolor(4);
 	setfillstyle(9, 4);
 
-																																																																																																																																	line(getmaxx()/2 - 190, getmaxy()/2 + 20, (getmaxx()/2 - 190) + 50, getmaxy()/2 + 20);
+  line(getmaxx()/2 - 190, getmaxy()/2 + 20, (getmaxx()/2 - 190) + 50, getmaxy()/2 + 20);
 	/* start of left down chicken */
 	ellipse(getmaxx()/2 - 165, getmaxy()/2 + 12, 0, 360, 20, 8);
 	floodfill(getmaxx()/2 - 165, getmaxy()/2 + 12,4);
@@ -619,7 +749,6 @@ cleardevice();
 void action() {
   int count=0;
   int key;
-  speed=300;
   int wtype = 1; //1-vlvv 2-vpvv 3-vlvn 4-vpvn
   int buf = -1;
   time_t t;
@@ -691,8 +820,8 @@ void action() {
     count++;
 
 
-    if(count%3==0)
-    speed=speed-2;
+/*     if(count%3==0)
+      speed=speed-2; */
 
 
 
@@ -717,7 +846,7 @@ void main() {
   int y=61, i;
 
   detectgraph (&gd, &gm);
-  initgraph (&gd, &gm, "C:\\borlandc\\bgi");
+  initgraph (&gd, &gm, "\\bgi");
   error = graphresult ();
 
   if(error != grOk) {
@@ -725,7 +854,7 @@ void main() {
     exit (-1);
   }
 
-/* Splash befor the game */
+/* Splash befor the game
   for(i=0;i<260;i+=20) {
 		cleardevice();
 		back_pic();
