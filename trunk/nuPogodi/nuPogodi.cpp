@@ -107,6 +107,8 @@ case 1:
 	arc(375,254,0,180,6);
 	arc(266,272,0,180,6);
 	arc(375,272,0,180,6);
+	arc(270,330,0,180,6);
+	arc(373,330,0,180,6);
 
 	setcolor(15);
 	circle(182,191,6);
@@ -123,7 +125,8 @@ case 2:
 	arc(375,254,0,180,6);
 	arc(266,272,0,180,6);
 	arc(375,272,0,180,6);
-
+	    arc(270,330,0,180,6);
+	    arc(373,330,0,180,6);
 	setcolor(15);
 	circle(456,190,6);
 	}
@@ -139,7 +142,8 @@ case 3:
 	arc(375,254,0,180,6);
 	arc(266,272,0,180,6);
 	arc(375,272,0,180,6);
-
+	    arc(270,330,0,180,6);
+	    arc(373,330,0,180,6);
 	setcolor(15);
 	circle(185,252,6);
 	}
@@ -155,7 +159,8 @@ case 4:
 	arc(375,254,0,180,6);
 	arc(266,272,0,180,6);
 	arc(375,272,0,180,6);
-
+	    arc(270,330,0,180,6);
+	    arc(373,330,0,180,6);
 	setcolor(15);
 	circle(456,246,6);
 	}
@@ -658,10 +663,10 @@ void action() {
 	bestscore++;
 	setcolor(BLACK);
 	itoa(bestscore-1,bs,10);
-	outtextxy(10,10,bs);
+	outtextxy(30,40,bs);
 	setcolor(15);
 	itoa(bestscore,bs,10);
-	outtextxy(10,10,bs);
+	outtextxy(30,40,bs);
 	switch(buf-30){
 	case 1:arc(265,252,0,180,6); break;
 	case 2:arc(375,254,0,180,6); break;
@@ -676,8 +681,11 @@ void action() {
     setcolor(12);
     setfillstyle(0,12);
     floodfill(400+(fal-1)*45,42,12);
-
-
+    setcolor(15);
+    if(wtype==2 ||wtype ==4)
+    arc(270,330,0,180,6);
+    if(wtype==1 ||wtype ==3)
+    arc(373,330,0,180,6);
     }
 
     if(key != 0 && (key != up_left || key != up_right || key != down_left || key != down_right))
