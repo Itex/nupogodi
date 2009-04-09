@@ -242,7 +242,7 @@ default:
 if (buf>29)
 buf=-25;
 delay(speed);
-speed=speed-1;
+
 return buf+10;
 }
 
@@ -312,7 +312,7 @@ void text(int y) {
 void menutext() {
   /*нарисовать прямоугольник*/
   rectangle(30, 60, 200, 100);
-  /*нарисовать второй прямоугольник*/
+  /*нарисовать втор� �й прямоугольник*/
   rectangle(30, 120, 200, 160);
   /*нарисовать третий прямоугольник*/
   rectangle(30, 180, 200, 220);
@@ -617,6 +617,7 @@ cleardevice();
 }
 
 void action() {
+  int count=0;
   int key;
   speed=300;
   int wtype = 1; //1-vlvv 2-vpvv 3-vlvn 4-vpvn
@@ -627,7 +628,8 @@ void action() {
   chickens();
   char bs[20];//char bestscore
   int fal=0;//oshibki
-	while(key != bios_esc) {
+	while(key != bios_esc)
+{
     if(buf<0) {
       srand((unsigned) time(&t));
       buf=rand()%4 + 1;
@@ -663,10 +665,10 @@ void action() {
 	bestscore++;
 	setcolor(BLACK);
 	itoa(bestscore-1,bs,10);
-	outtextxy(30,40,bs);
+	outtextxy(30,27,bs);
 	setcolor(15);
 	itoa(bestscore,bs,10);
-	outtextxy(30,40,bs);
+	outtextxy(30,27,bs);
 	switch(buf-30){
 	case 1:arc(265,252,0,180,6); break;
 	case 2:arc(375,254,0,180,6); break;
@@ -674,7 +676,6 @@ void action() {
 	case 4:arc(375,272,0,180,6); break;
 	}
 	}
-
     if(buf-30>0 && wtype!=buf-30)//proverka osibok
     {
     fal++;
@@ -682,11 +683,18 @@ void action() {
     setfillstyle(0,12);
     floodfill(400+(fal-1)*45,42,12);
     setcolor(15);
-    if(wtype==2 ||wtype ==4)
+    if( buf==31 || buf ==33)
     arc(270,330,0,180,6);
-    if(wtype==1 ||wtype ==3)
+    if(buf==32 || buf ==34)
     arc(373,330,0,180,6);
     }
+    count++;
+
+
+    if(count%3==0)
+    speed=speed-2;
+
+
 
     if(key != 0 && (key != up_left || key != up_right || key != down_left || key != down_right))
       key = bioskey(0);
@@ -694,8 +702,7 @@ void action() {
 	if(fal==5)
 	key=bios_esc;
 
-
-	}
+}
 	settextstyle(0, 0, 1);
 	best(bestscore);
 	cleardevice();
