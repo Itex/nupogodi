@@ -12,7 +12,7 @@
 	3. Сделать лучший результат   --complete
 	4. Изменить сканирование движения   --complete
 	5. Исправить Devid на David   --complete
-	6. Подумать о реализации игры
+	6. Подумать о реализации игры	--complete
 /*----------------------------*/
 
 #include <string.h>
@@ -860,7 +860,7 @@ void main() {
     exit (-1);
   }
 
-/* Splash befor the game
+/* Splash befor the game*/
   for(i=0;i<260;i+=20) {
 		cleardevice();
 		back_pic();
