@@ -26,9 +26,10 @@
 
 int bestscore=0;
 int speed =300;
-int sou=100;    //Переменная частоты звука
+int sou[13]={392,329,329,392,329,329,392,349,329,293,263,293,329};    //Переменная частоты звука
 int y_opt = 141;
 int option_flag = -1;
+int qw=0;
 
 enum {UP_ARROW=72, LEFT_ARROW=75, DOWN_ARROW=80, RIGHT_ARROW=77, ESC=27, ENTER=13};
 enum bios_keis {bios_up = 18432, bios_right = 19712, bios_down = 20480, bios_left = 19200, bios_esc = 283, bios_enter = 7181,
@@ -38,6 +39,7 @@ void action();
 void text(int y);
 
 void back_pic() {
+
 	settextstyle(4, 0, 3); // font family, derection, size
 	outtextxy(260, 60, "Nu, pogodi!");
 	/* The Grass =) */
@@ -48,10 +50,10 @@ void back_pic() {
 	setcolor(15);
 	settextstyle(0, 0, 1);
 	outtextxy(200, 100, "Developed by David & Sanchez Inc.");
-	sound(sou);
-	delay(50);
+	sound(sou[qw]);
+	delay(70);
 	nosound();
-	sou=sou+100;
+	qw++;
 }
 
 void woolf(int x,int y) {
@@ -280,10 +282,6 @@ void active_options_item(int y) {
 }
 
 void text(int y) {
-  if(y==61) {
-		outtextxy(240, 70, "Get READY!!!!!");
-		delay(1000);
-	}
   if(y==121) {
 		outtextxy(370, 70, "Hight score");
 		char hs[100];
@@ -317,6 +315,7 @@ void text(int y) {
 }
 
 void menutext() {
+setbkcolor(4);
   /*нарисовать прямоугольник*/
   rectangle(30, 60, 200, 100);
   /*нарисовать второй прямоугольник*/
@@ -336,6 +335,7 @@ void menutext() {
   outtextxy(35, 125, "Hight score");
   outtextxy(35, 185, "Rules");
   outtextxy(35, 245, "Options");
+  outtextxy(35,420,"V 1.01");
 }
 
 void options_menu() {
@@ -426,6 +426,7 @@ void menu() {
 	menutext();
   active_item(y);
 
+setbkcolor(4);
 	do {
 	arrow_key=arrow(arrow_key);
 
@@ -433,16 +434,16 @@ void menu() {
       case DOWN_ARROW:
         /* ======================================= */
         /* !!! ОЧЕНЬ НУЖНАЯ ДВОЙНАЯ ПРОВЕРКА !!!   */
-        /* ======================================= */
-        /* двойная проверка нужна, что бы вдруг при нажатии на */
-        /* стрелку вверх не произшло прибавление 60 на последующем этапе */
-        /* и экран не закрасился */
-        if(y >= 241)
+	/* ======================================= */
+	/* двойная проверка нужна, что бы вдруг при нажатии на */
+	/* стрелку вверх не произшло прибавление 60 на последующем этапе */
+	/* и экран не закрасился */
+	if(y >= 241)
 	  y = 1;
 
-        cleardevice();
-        menutext();
-        active_item(y+=60);
+	cleardevice();
+	menutext();
+	active_item(y+=60);
 	//if(y >= 241)    /* т.к. пунктов меню всего 4 делаем так */
 	  //y = 1;        /* для последующего сложения с 60 и получения правильных результатов */
       break;
@@ -588,7 +589,7 @@ setcolor(15);
 return 4;
 }
 
-void chickens() {
+void chickens() { //and other static things in game
 int h;//kol-vo serdec
 	setcolor(14);
 	setfillstyle(9, 14);
@@ -647,7 +648,7 @@ int h;//kol-vo serdec
 	rectangle(40,420,80,460);
 	rectangle(580,340,620,380);
 	rectangle(600,420,560,460);
-	setcolor(12);
+	setcolor(9);
 	outtextxy(25,345,"A");
 	outtextxy(45,425,"Z");
 	outtextxy(585,345,"\'");
@@ -700,7 +701,7 @@ else
 {
 setcolor(15);
 outtextxy(280,205,"You did it");
-outtextxy(252,215,"Enter your name(10)");
+outtextxy(252,215,"Enter your name(20)");
 
 char *s;
 char w;
@@ -741,6 +742,7 @@ cleardevice();
 }
 
 void action() {
+setbkcolor(BLACK);
   int count=0;
   int key;
   int wtype = 1; //1-vlvv 2-vpvv 3-vlvn 4-vpvn
@@ -750,6 +752,11 @@ void action() {
   cleardevice();
   vlvv(255,200,7);
   chickens();
+  setcolor(15);
+		outtextxy(280,100,"Get READY?");
+		getch();
+		setcolor(BLACK);
+		outtextxy(280,100, "Get READY?");
   char bs[20];//char bestscore
   int fal=0;//oshibki
   switch(y_opt) {
@@ -763,6 +770,8 @@ void action() {
 		}
 	while(key != bios_esc)
 {
+
+
     if(buf<0) {
       srand((unsigned) time(&t));
       buf=rand()%4 + 1;
