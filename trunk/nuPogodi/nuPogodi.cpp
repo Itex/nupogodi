@@ -1,19 +1,10 @@
-//============================================================================
+﻿//============================================================================
 // Name        : nuPogodi.cpp
 // Author      : xolvo & David
-// Version     :
-// Copyright   :
-// Description :
+// Version     : 1.02 with some color and comments optimizations
+// Copyright   : David & Sanchez Inc.
+// Description : Nu Pogodi - the Game
 //============================================================================
-
-/* TODO list for this project
-	1. Переделать фон   --complete
-	2. Вставить музыку   --complete
-	3. Сделать лучший результат   --complete
-	4. Изменить сканирование движения   --complete
-	5. Исправить Devid на David   --complete
-	6. Подумать о реализации игры	--complete
-/*----------------------------*/
 
 #include <string.h>
 #include <time.h>
@@ -26,20 +17,20 @@
 
 int bestscore=0;
 int speed =300;
-int sou[13]={392,329,329,392,329,329,392,349,329,293,263,293,329};    //Переменная частоты звука
+int sou[13] = {392,329,329,392,329,329,392,349,329,293,263,293,329};
 int y_opt = 141;
 int option_flag = -1;
 int qw=0;
 
 enum {UP_ARROW=72, LEFT_ARROW=75, DOWN_ARROW=80, RIGHT_ARROW=77, ESC=27, ENTER=13};
-enum bios_keis {bios_up = 18432, bios_right = 19712, bios_down = 20480, bios_left = 19200, bios_esc = 283, bios_enter = 7181,
-		up_left = 7777, down_left = 11386, up_right = 10279, down_right = 13615};
+enum bios_keis {bios_up = 18432, bios_right = 19712, bios_down = 20480, bios_left = 19200, 
+	 bios_esc = 283, bios_enter = 7181, up_left = 7777, down_left = 11386, 
+	 up_right = 10279, down_right = 13615};
 
 void action();
 void text(int y);
 
 void back_pic() {
-
 	settextstyle(4, 0, 3); // font family, derection, size
 	outtextxy(260, 60, "Nu, pogodi!");
 	/* The Grass =) */
@@ -79,6 +70,7 @@ void woolf(int x,int y) {
 	floodfill(60+x,60+y,7);
 	setcolor(15);
 }
+
 void two_chickens(int x, int y) {
 	setfillstyle(9, 14);
 
@@ -250,53 +242,49 @@ delay(speed);
 return buf+10;
 }
 
-
-
-
 int isstart(int y) {
-	int value=0;
+	int value = 0;
 
-  if(y==61)
+	if(y == 61)
 		value = 1;
 
 	return value;
 }
 
 int arrow(char KeyStroke) {
-
-  KeyStroke=getch();
-  if(KeyStroke==0)
-		KeyStroke=getch();
+	KeyStroke = getch();
+	if(KeyStroke == 0)
+		KeyStroke = getch();
 
 	return KeyStroke;
 }
 
 void active_item(int y) {
-  setfillstyle(9, 12);
-  floodfill(31, y, 15);
+	setfillstyle(9, 12);
+	floodfill(31, y, 15);
 }
 
 void active_options_item(int y) {
-  setfillstyle(9, 12);
-  floodfill(251, y, 15);
+	setfillstyle(9, 12);
+	floodfill(251, y, 15);
 }
 
 void text(int y) {
-  if(y==121) {
+	if(y==121) {
 		outtextxy(370, 70, "Hight score");
 		char hs[100];
 		FILE *st;
 		if((st=fopen("file.txt","r"))==NULL)
-		outtextxy(240, 90, "No Best score");
+			outtextxy(240, 90, "No Best score");
 		else
 		{
-		//st=fopen("file.txt","r");
-		fgets(hs,100,st);
-		outtextxy(240, 90, hs);
-		fclose(st);
+			//st=fopen("file.txt","r");
+			fgets(hs,100,st);
+			outtextxy(240, 90, hs);
+			fclose(st);
 		}
 	}
-  if(y == 181) {
+	if(y == 181) {
 		/* TODO think about rules improvements */
 
 		outtextxy(240, 70, "To win in this game you should catch all");
@@ -315,27 +303,27 @@ void text(int y) {
 }
 
 void menutext() {
-setbkcolor(4);
-  /*нарисовать прямоугольник*/
-  rectangle(30, 60, 200, 100);
-  /*нарисовать второй прямоугольник*/
-  rectangle(30, 120, 200, 160);
-  /*нарисовать третий прямоугольник*/
-  rectangle(30, 180, 200, 220);
-  /* нарисовать еще прямоугольник для опции */
-  rectangle(30, 240, 200, 280);
-  /*нарисовать главную область*/
-  rectangle(230, 60, getmaxx()-50, getmaxy()-50);
+	setbkcolor(7);
+	/*нарисовать прямоугольник*/
+	rectangle(30, 60, 200, 100);
+	/*нарисовать второй прямоугольник*/
+	rectangle(30, 120, 200, 160);
+	/*нарисовать третий прямоугольник*/
+	rectangle(30, 180, 200, 220);
+	/* нарисовать еще прямоугольник для опции */
+	rectangle(30, 240, 200, 280);
+	/*нарисовать главную область*/
+	rectangle(230, 60, getmaxx()-50, getmaxy()-50);
 
-  outtextxy(30, 10, "UP and DOWN arrow - for navigate");
-  outtextxy(30, 20, "ENTER - for choice");
-  outtextxy(30, 30, "ESC - for exit");
+	outtextxy(30, 10, "UP and DOWN arrow - for navigate");
+	outtextxy(30, 20, "ENTER - for choice");
+	outtextxy(30, 30, "ESC - for exit");
 
-  outtextxy(35, 65, "Start the game");
-  outtextxy(35, 125, "Hight score");
-  outtextxy(35, 185, "Rules");
-  outtextxy(35, 245, "Options");
-  outtextxy(35,420,"V 1.01");
+	outtextxy(35, 65, "Start the game");
+	outtextxy(35, 125, "Hight score");
+	outtextxy(35, 185, "Rules");
+	outtextxy(35, 245, "Options");
+	outtextxy(35,420,"V 1.02");
 }
 
 void options_menu() {
@@ -364,39 +352,29 @@ void options_menu() {
     arrow_opt_key = arrow(arrow_opt_key);
 
     switch(arrow_opt_key) {
-      case DOWN_ARROW:
-	/* ======================================= */
-	/* !!! ОЧЕНЬ НУЖНАЯ ДВОЙНАЯ ПРОВЕРКА !!!   */
-	/* ======================================= */
-	/* двойная проверка нужна, что бы вдруг при нажатии на */
-	/* стрелку вверх не произшло прибавление 60 на последующем этапе */
-	/* и экран не закрасился */
-	if(y_opt >= 141)
-	  y_opt = 21;
+		case DOWN_ARROW:
+			if(y_opt >= 141)
+				y_opt = 21;
 
-	active_options_item(y_opt += 60);
-	cleardevice();
-	break;
+			active_options_item(y_opt += 60);
+			cleardevice();
+		break;
 
       case UP_ARROW:
-	switch(y_opt) {
-	  case 81:
-	    y_opt=141; /* что бы исправить переход вниз */
-	    active_options_item(y_opt);
-	    cleardevice();
+		switch(y_opt) {
+		  case 81:
+			y_opt=141; /* что бы исправить переход вниз */
+			active_options_item(y_opt);
+			cleardevice();
+		  break;
+
+		  case 141:
+			y_opt=81;
+			active_options_item(y_opt);
+			cleardevice();
+	  	  break;
+		}
 	  break;
-
-	  case 141:
-	    y_opt=81;
-	    active_options_item(y_opt);
-	    cleardevice();
-	  break;
-
-
-
-
-	}
-      break;
 
       case ENTER:
 	switch(y_opt) {
@@ -426,26 +404,18 @@ void menu() {
 	menutext();
   active_item(y);
 
-setbkcolor(4);
+setbkcolor(7);
 	do {
 	arrow_key=arrow(arrow_key);
 
     switch(arrow_key) {
       case DOWN_ARROW:
-        /* ======================================= */
-        /* !!! ОЧЕНЬ НУЖНАЯ ДВОЙНАЯ ПРОВЕРКА !!!   */
-	/* ======================================= */
-	/* двойная проверка нужна, что бы вдруг при нажатии на */
-	/* стрелку вверх не произшло прибавление 60 на последующем этапе */
-	/* и экран не закрасился */
 	if(y >= 241)
 	  y = 1;
 
 	cleardevice();
 	menutext();
 	active_item(y+=60);
-	//if(y >= 241)    /* т.к. пунктов меню всего 4 делаем так */
-	  //y = 1;        /* для последующего сложения с 60 и получения правильных результатов */
       break;
 
       case UP_ARROW:
@@ -463,6 +433,7 @@ setbkcolor(4);
 	    menutext();
 	    active_item(y);
 	  break;
+
 
 	  case 61:
 	    y=241;
@@ -524,73 +495,73 @@ int vlvv(int x, int y,int wolfcol) {
 	setcolor(15);
 	return 1;
 }
-int vlvn(int x,int y,int wolfcol)
-{
-setcolor(wolfcol);
-setfillstyle(1,wolfcol);
-rectangle(20+x,20+y,70+x,30+y);
-floodfill(69+x,29+y,wolfcol);
-circle(20+x,20+y,5);
-circle(60+x,20+y,10);
-line(65+x,10+y,70+x,5+y);
-line(68+x,20+y,70+x,5+y);
-ellipse(60+x,60+y,0,360,20,30);
-line(67+x,90+y,90+x,130+y);
-line(53+x,90+y,30+x,130+y);
-line(40+x,60+y,10+x,80+y);
-ellipse(10+x,70+y,180,360,10,10);
-floodfill(19+x,20+y,wolfcol);
-floodfill(59+x,19+y,wolfcol);
-floodfill(60+x,60+y,wolfcol);
-setcolor(15);
-return 3;
-}
-int vpvv(int x,int y,int wolfcol)
-{
-setcolor(wolfcol);
-setfillstyle(1,wolfcol);
-rectangle(50+x,20+y,100+x,30+y);
-floodfill(98+x,22+y,wolfcol);
-circle(100+x,20+y,5);
-circle(60+x,20+y,10);
-line(60+x,15+y,50+x,5+y);
-line(50+x,5+y,55+x,18+y);
-ellipse(60+x,60+y,0,360,20,30);
-line(67+x,90+y,90+x,130+y);
-line(53+x,90+y,30+x,130+y);
-line(80+x,60+y,120+x,60+y);
-ellipse(120+x,50+y,180,360,10,10);
-floodfill(101+x,21+y,wolfcol);
-floodfill(61+x,19+y,wolfcol);
-floodfill(60+x,60+y,wolfcol);
-setcolor(15);
-return 2;
+
+int vlvn(int x,int y,int wolfcol) {
+	setcolor(wolfcol);
+	setfillstyle(1,wolfcol);
+	rectangle(20+x,20+y,70+x,30+y);
+	floodfill(69+x,29+y,wolfcol);
+	circle(20+x,20+y,5);
+	circle(60+x,20+y,10);
+	line(65+x,10+y,70+x,5+y);
+	line(68+x,20+y,70+x,5+y);
+	ellipse(60+x,60+y,0,360,20,30);
+	line(67+x,90+y,90+x,130+y);
+	line(53+x,90+y,30+x,130+y);
+	line(40+x,60+y,10+x,80+y);
+	ellipse(10+x,70+y,180,360,10,10);
+	floodfill(19+x,20+y,wolfcol);
+	floodfill(59+x,19+y,wolfcol);
+	floodfill(60+x,60+y,wolfcol);
+	setcolor(15);
+	return 3;
 }
 
-int vpvn(int x,int y,int wolfcol)
-{
-setcolor(wolfcol);
-setfillstyle(1,wolfcol);
-rectangle(50+x,20+y,100+x,30+y);
-floodfill(98+x,22+y,wolfcol);
-circle(100+x,20+y,5);
-circle(60+x,20+y,10);
-line(60+x,15+y,50+x,5+y);
-line(50+x,5+y,55+x,18+y);
-ellipse(60+x,60+y,0,360,20,30);
-line(67+x,90+y,90+x,130+y);
-line(53+x,90+y,30+x,130+y);
-line(80+x,60+y,120+x,80+y);
-ellipse(120+x,70+y,180,360,10,10);
-floodfill(101+x,21+y,wolfcol);
-floodfill(61+x,19+y,wolfcol);
-floodfill(60+x,60+y,wolfcol);
-setcolor(15);
-return 4;
+int vpvv(int x,int y,int wolfcol) {
+	setcolor(wolfcol);
+	setfillstyle(1,wolfcol);
+	rectangle(50+x,20+y,100+x,30+y);
+	floodfill(98+x,22+y,wolfcol);
+	circle(100+x,20+y,5);
+	circle(60+x,20+y,10);
+	line(60+x,15+y,50+x,5+y);
+	line(50+x,5+y,55+x,18+y);
+	ellipse(60+x,60+y,0,360,20,30);
+	line(67+x,90+y,90+x,130+y);
+	line(53+x,90+y,30+x,130+y);
+	line(80+x,60+y,120+x,60+y);
+	ellipse(120+x,50+y,180,360,10,10);
+	floodfill(101+x,21+y,wolfcol);
+	floodfill(61+x,19+y,wolfcol);
+	floodfill(60+x,60+y,wolfcol);
+	setcolor(15);
+	return 2;
+}
+
+int vpvn(int x,int y,int wolfcol) {
+	setcolor(wolfcol);
+	setfillstyle(1,wolfcol);
+	rectangle(50+x,20+y,100+x,30+y);
+	floodfill(98+x,22+y,wolfcol);
+	circle(100+x,20+y,5);
+	circle(60+x,20+y,10);
+	line(60+x,15+y,50+x,5+y);
+	line(50+x,5+y,55+x,18+y);
+	ellipse(60+x,60+y,0,360,20,30);
+	line(67+x,90+y,90+x,130+y);
+	line(53+x,90+y,30+x,130+y);
+	line(80+x,60+y,120+x,80+y);
+	ellipse(120+x,70+y,180,360,10,10);
+	floodfill(101+x,21+y,wolfcol);
+	floodfill(61+x,19+y,wolfcol);
+	floodfill(60+x,60+y,wolfcol);
+	setcolor(15);
+	return 4;
 }
 
 void chickens() { //and other static things in game
-int h;//kol-vo serdec
+	int h;//kol-vo serdec
+	
 	setcolor(14);
 	setfillstyle(9, 14);
 	line(getmaxx()/2 - 190, getmaxy()/2 - 40, (getmaxx()/2 - 190) + 50, getmaxy()/2 - 40);
@@ -616,7 +587,7 @@ int h;//kol-vo serdec
 	setcolor(4);
 	setfillstyle(9, 4);
 
-  line(getmaxx()/2 - 190, getmaxy()/2 + 20, (getmaxx()/2 - 190) + 50, getmaxy()/2 + 20);
+	line(getmaxx()/2 - 190, getmaxy()/2 + 20, (getmaxx()/2 - 190) + 50, getmaxy()/2 + 20);
 	/* start of left down chicken */
 	ellipse(getmaxx()/2 - 165, getmaxy()/2 + 12, 0, 360, 20, 8);
 	floodfill(getmaxx()/2 - 165, getmaxy()/2 + 12,4);
@@ -633,116 +604,114 @@ int h;//kol-vo serdec
 	/* end of chicken */
 	line(458,  260, 386, 270);//line
 
-	//serdca//
+	/* Lifes */
 	setcolor(12);
-	for(h=0;h<200;h=h+45)
-	{
-	arc(400+h,40,0,180,10);
-	arc(400+10+10+h,40,0,180,10);
-	line(400-10+h,40,400+10+h,60);
-	line(400+10+10+10+h,40,400+10+h,60);
-	floodfill(400+h+10,42,12);
+	for(h=0;h<200;h=h+45) {
+		arc(400+h,40,0,180,10);
+		arc(400+10+10+h,40,0,180,10);
+		line(400-10+h,40,400+10+h,60);
+		line(400+10+10+10+h,40,400+10+h,60);
+		floodfill(400+h+10,42,12);
 	}
 	setcolor(15);
-	rectangle(20,340,60,380);
-	rectangle(40,420,80,460);
-	rectangle(580,340,620,380);
-	rectangle(600,420,560,460);
+	rectangle(20,340-150,60,380-150);
+	rectangle(40,420-150,80,460-150);
+	rectangle(580,340-150,620,380-150);
+	rectangle(600,420-150,560,460-150);
 	setcolor(9);
-	outtextxy(25,345,"A");
-	outtextxy(45,425,"Z");
-	outtextxy(585,345,"\'");
-	outtextxy(565,425,"\/");
+	outtextxy(25,345-150,"A");
+	outtextxy(45,425-150,"Z");
+	outtextxy(585,345-150,"\'");
+	outtextxy(565,425-150,"\/");
+	/* The Grass =) */
+	setcolor(2);
+	for(int i=0;i<639;i+=2)
+		line(i, 330, i, 325);
 }
-void best(int bestscore)
-{
-char name[20];
-name[0]=NULL;
-int bcnt=0,i,oldbest=0;
-FILE *fPtr;
-bestscore--;//Временная подпрвка лучшего рез-та
-setcolor(3);
-rectangle(250,200,400,280);
-setfillstyle(1,3);
-floodfill(320,240,3);
+void best(int bestscore) {
+	char name[20] = { NULL };
+	//name[0]=NULL;
+	int bcnt=0, i, oldbest=0;
+	FILE *fPtr;
+	bestscore--; //Временная подпрвка лучшего рез-та
+	setcolor(3);
+	rectangle(250,200,400,280);
+	setfillstyle(1,3);
+	floodfill(320,240,3);
+	
+	if((fPtr=fopen("file.txt","r"))==NULL) { //schitivaem proshliy luchsiy rezultat
+		setcolor(15);
+		outtextxy(280,225,"First Game?");
+	}
+	
+	else {
+		fscanf(fPtr,"%d",&oldbest);
+		fclose(fPtr);
+	}
+	
+	if(oldbest>bestscore) {
+		setcolor(15);
+		outtextxy(295,210,"You Lose");
+		outtextxy(302,230,"Try to");
+		outtextxy(253,250,"Improve High score");
+		
+		while (1)
+			if(getch() == ESC || getch() == ENTER)
+				break;
 
-
-if((fPtr=fopen("file.txt","r"))==NULL)//schitivaem proshliy luchsiy rezultat
-{setcolor(15);
-outtextxy(280,225,"First Game?");
-}
-else
-{
-   fscanf(fPtr,"%d",&oldbest);
-fclose(fPtr);
-
-}
-
-
-if(oldbest>bestscore)
-{
-setcolor(15);
-outtextxy(295,210,"You Lose");
-outtextxy(302,230,"Try to");
-outtextxy(253,250,"Improve High score");
-while (1)
-if(getch()==ESC || getch()==ENTER)
-break;
-
-clrscr();
-cleardevice();
-}
-else
-{
-
-if((fPtr=fopen("file.txt","w+"))==NULL)//esli uslovie vipoln
-printf("File could not to be opened\n");
-else
-{
-setcolor(15);
-outtextxy(280,205,"You did it");
-outtextxy(252,215,"Enter your name(20)");
-
-char *s;
-char w;
-s=&w;
-	while(bcnt<19)
-	{
-	*s=getch();
-	bcnt++;
-		if (*s==ESC || *s==ENTER)
-			break;
-		else
-		{
-			if(*s!=8)
-			{
-			strncat(name,s,1);
+		clrscr();
+		cleardevice();
+	}
+	
+	else {
+		if((fPtr=fopen("file.txt","w+"))==NULL) //esli uslovie vipoln
+			printf("File could not to be opened\n");
+		else {
 			setcolor(15);
-			outtextxy(252,240,name);
+			outtextxy(280,205,"You did it");
+			outtextxy(252,215,"Enter your name(20)");
+
+			char *s;
+			char w;
+			s = &w;
+			while(bcnt<19) {
+				*s=getch();
+				bcnt++;
+				if (*s==ESC || *s==ENTER)
+					break;
+				else
+				{
+					if(*s!=8)
+					{
+					strncat(name,s,1);
+					setcolor(15);
+					outtextxy(252,240,name);
+					}
+				}
+				if(*s==8)//backspace
+				{
+				name[bcnt-2]=NULL;
+				setcolor(3);
+				bcnt=bcnt-2;
+				for(i=8;i<16;i++)//stirka
+					line(252+8*(bcnt-1)+i,240,252+8*(bcnt-1)+i,247);
+				}
+				if(bcnt==19)
+				getch();
 			}
 		}
-		if(*s==8)//backspace
-		{
-		name[bcnt-2]=NULL;
-		setcolor(3);
-		bcnt=bcnt-2;
-		for(i=8;i<16;i++)//stirka
-			line(252+8*(bcnt-1)+i,240,252+8*(bcnt-1)+i,247);
-		}
-	 if(bcnt==19)
-	 getch();
+		
+		fprintf(fPtr,"%d ",bestscore+1);
+		fprintf(fPtr,"%s ",name);
 	}
-}
-fprintf(fPtr,"%d ",bestscore+1);
-fprintf(fPtr,"%s ",name);
-}
-fclose(fPtr);
-clrscr();
-cleardevice();
+	
+	fclose(fPtr);
+	clrscr();
+	cleardevice();
 }
 
 void action() {
-setbkcolor(BLACK);
+  setbkcolor(BLACK);
   int count=0;
   int key;
   int wtype = 1; //1-vlvv 2-vpvv 3-vlvn 4-vpvn
@@ -753,10 +722,10 @@ setbkcolor(BLACK);
   vlvv(255,200,7);
   chickens();
   setcolor(15);
-		outtextxy(280,100,"Get READY?");
-		getch();
-		setcolor(BLACK);
-		outtextxy(280,100, "Get READY?");
+  outtextxy(280,100,"Get READY?");
+  getch();
+  setcolor(BLACK);
+  outtextxy(280,100, "Get READY?");
   char bs[20];//char bestscore
   int fal=0;//oshibki
   switch(y_opt) {
@@ -768,9 +737,8 @@ setbkcolor(BLACK);
 		    speed = 300;
 			  break;
 		}
-	while(key != bios_esc)
-{
-
+		
+	while(key != bios_esc) {
 
     if(buf<0) {
       srand((unsigned) time(&t));
@@ -778,7 +746,7 @@ setbkcolor(BLACK);
     }
     buf=egg(buf);
 
-    if(key = bioskey(1)) {
+    if( key = bioskey(1) ) { // if statment with warning.. But it's normal ;)
       switch(wtype) {
 	case 1:	vlvv(255,200,BLACK); break;
 	case 2:	vpvv(255,200,BLACK); break;
@@ -801,34 +769,33 @@ setbkcolor(BLACK);
       }
     }
 
-    if(wtype==buf-30) //Proverka na popadenie v korzinu
-	{
-	settextstyle(0, 0, 4);
-	bestscore++;
-	setcolor(BLACK);
-	itoa(bestscore-1,bs,10);
-	outtextxy(30,27,bs);
-	setcolor(15);
-	itoa(bestscore,bs,10);
-	outtextxy(30,27,bs);
-	switch(buf-30){
-	case 1:arc(265,252,0,180,6); break;
-	case 2:arc(375,254,0,180,6); break;
-	case 3:arc(266,272,0,180,6); break;
-	case 4:arc(375,272,0,180,6); break;
+    if(wtype==buf-30) { //Proverka na popadenie v korzinu
+		settextstyle(0, 0, 4);
+		bestscore++;
+		setcolor(BLACK);
+		itoa(bestscore-1,bs,10);
+		outtextxy(30,27,bs);
+		setcolor(15);
+		itoa(bestscore,bs,10);
+		outtextxy(30,27,bs);
+		switch(buf-30){
+			case 1:arc(265,252,0,180,6); break;
+			case 2:arc(375,254,0,180,6); break;
+			case 3:arc(266,272,0,180,6); break;
+			case 4:arc(375,272,0,180,6); break;
+		}
 	}
-	}
-    if(buf-30>0 && wtype!=buf-30)//proverka osibok
-    {
-    fal++;
-    setcolor(12);
-    setfillstyle(0,12);
-    floodfill(400+(fal-1)*45,42,12);
-    setcolor(15);
-    if( buf==31 || buf ==33)
-    arc(270,330,0,180,6);
-    if(buf==32 || buf ==34)
-    arc(373,330,0,180,6);
+	
+    if(buf-30>0 && wtype!=buf-30) { //proverka osibok
+		fal++;
+		setcolor(12);
+		setfillstyle(0,12);
+		floodfill(400+(fal-1)*45,42,12);
+		setcolor(15);
+		if( buf==31 || buf ==33)
+		arc(270,330,0,180,6);
+		if(buf==32 || buf ==34)
+		arc(373,330,0,180,6);
     }
     count++;
 
@@ -842,24 +809,23 @@ setbkcolor(BLACK);
       key = bioskey(0);
 
 	if(fal==5)
-	key=bios_esc;
+	  key=bios_esc;
 
-}
+  }
 	settextstyle(0, 0, 1);
 	best(bestscore);
 	cleardevice();
 	menutext();
 	active_item(61);
-
 }
 
 void main() {
   int gd, gm, error;
   char arrow_key;
-  int y=61, i;
+  int i;
 
   detectgraph (&gd, &gm);
-  initgraph (&gd, &gm, "C:\\borlandc\\bgi");
+  initgraph (&gd, &gm, "C:\\BORLANDC\\BGI");
 
   error = graphresult ();
 
@@ -869,7 +835,7 @@ void main() {
     exit (-1);
   }
 
-/* Splash befor the game*/
+/* Splash befor the game */
   for(i=0;i<260;i+=20) {
 		cleardevice();
 		back_pic();
